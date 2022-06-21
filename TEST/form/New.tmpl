@@ -1,0 +1,23 @@
+{{ define "New" }}
+  {{ template "Header" }}
+    {{ template "Menu" }} 
+   <h2>New Member</h2>  
+    <form method="POST" action="Insert">
+      <label> 姓名 </label><input type="text" name="MemberName"/><br />
+      <label> 性別 </label>
+        <input type="radio" id="Male" value="0" name="Gender" /><label for="Male">男</label>
+        <input type="radio" id="Female" value="1" name="Gender" /><label for="Female">女</label><br />
+      <label> 暱稱 </label><input type="text" name="NickName" /><br />
+      <label> 身份證字號 </label><input type="text" name="NationalID" /><br />
+      <label> 生日 </label><input type="date" name="DateofBirth" /><br />
+      <label> 國家 </label><input type="text" name="Region" /><br />
+      <label> 縣市 </label><input type="text" name="City" /><br />
+      <label> 手機 </label><input type="text" name="ContactNumber" /><br />
+      <label> 大學 </label><input type="text" name="UniCode" /><br />
+      <label> 科系 </label><input type="text" name="MajorCode" /><br />
+      <label> Email </label><input type="text" name="Email" /><br />
+      <label> 密碼 </label><input type="text"  name="Password" /><br />
+      <input type="submit" value="Save user" />
+    </form>
+  {{ template "Footer" }}
+{{ end }}

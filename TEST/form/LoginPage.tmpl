@@ -1,0 +1,16 @@
+{{ define "LoginPage" }}
+<!DOCTYPE html>
+<html>
+  {{ template "Header" }}
+    {{ template "Menu"  }}
+    <h2>Sign In</h2>  
+    <body>
+    <form method="POST" action="Login">
+      <label> Email </label><input type="text" id="Email" name="Email" /><br />
+      <label> Password </label><input type="password" id="Password" name="Password" /><br />
+      <input type="submit" value="Login" />
+    </form><br />  
+  {{ template "Footer" }}
+    </body>
+    </html>
+ {{ end }}

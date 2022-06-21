@@ -1,0 +1,5 @@
+FROM golang:1.18.2
+WORKDIR /usr/app
+COPY . .
+CMD ["go","run","matching.go"]
+EXPOSE 8092
