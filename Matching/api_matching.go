@@ -1,35 +1,14 @@
 package main
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
-	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
 	"time"
-
-	_ "github.com/go-sql-driver/mysql"
 )
 
-type MemID struct {
-	Male   int
-	Female int
-	Pair   []string
-}
-
-func MysqlConn() (db *sql.DB) {
-	dbDriver := "mysql"
-	dbUser := "root"
-	dbPass := "0000"
-	dbName := "testdb"
-	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return db
-}
 func Matching(w http.ResponseWriter, r *http.Request) {
 	db := MysqlConn()
 
@@ -154,13 +133,4 @@ func ErrorCheck(err error) {
 	if err != nil {
 		panic(err.Error())
 	}
-}
-
-func main() {
-	log.Println("SERVER STARTED ON: HTTP://LOCALHOST:8092")
-
-	// http.HandleFunc("/RedisConn", RedisConn)
-	// http.HandleFunc("/SendRequest", SendRequest)
-	http.HandleFunc("/Matching", Matching)
-	http.ListenAndServe(":8092", nil)
 }
