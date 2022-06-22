@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"strconv"
@@ -85,8 +84,6 @@ type Posts struct {
 	Page    int `json:"page"`
 	PerPage int `json:"perpage"`
 }
-
-var tmpl = template.Must(template.ParseGlob("form/*"))
 
 func MysqlConn() (db *sql.DB) {
 	dbDriver := "mysql"
@@ -366,14 +363,7 @@ func Show(w http.ResponseWriter, r *http.Request) {
 		mem.CreateDate = CreateDate
 
 	}
-	tmpl.ExecuteTemplate(w, "Show", mem)
 	defer db.Close()
-}
-func New(w http.ResponseWriter, r *http.Request) {
-	tmpl.ExecuteTemplate(w, "New", nil)
-}
-func LoginPage(w http.ResponseWriter, r *http.Request) {
-	tmpl.ExecuteTemplate(w, "LoginPage", nil)
 }
 func Delete(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
@@ -592,22 +582,6 @@ func GetPosts(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("POST2", post)
 		}
 	}
-
-	// for cursor.Next(ctx) {
-	// 	err := cursor.Decode(&post)
-	// 	fmt.Println(err)
-	// 	if err != nil {
-	// 		fmt.Println("ERROR")
-	// 		w.WriteHeader(http.StatusBadRequest)
-	// 		return
-	// 	}
-	// 	ContentTune := []rune(post.Content)
-	// 	if len(post.Content) > 50 {
-	// 		post.Content = string(ContentTune[:50])
-	// 	}
-	// 	posts = append(posts, post)
-	// 	fmt.Println("POST", post)
-	// }
 	jsonResp, err := json.Marshal(posts2)
 	if err != nil {
 		log.Fatalf("Error happened in Json marshal. Err: %s", err)
@@ -688,137 +662,14 @@ func PostComment(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// func Matching(w http.ResponseWriter, r *http.Request) {
-// 	db := MysqlConn()
-
-// 	var mem = MemID{}
-// 	var mems = []MemID{}
-// 	// var PairingList = []MemID{}
-// 	// var pairedList = []MemID{}
-// 	FindMale, err := db.Query("SELECT MemberID,Paired FROM Member WHERE Gender='0' AND Dele='0' ORDER BY MemberID")
-// 	if err != nil {
-// 		panic(err.Error())
-// 	}
-// 	for FindMale.Next() {
-// 		var MemberID int
-// 		var Pair json.RawMessage
-// 		err = FindMale.Scan(&MemberID, &Pair)
-// 		if err != nil {
-// 			panic(err.Error())
-// 		}
-// 		mem.Male = MemberID
-// 		mems = append(mems, mem)
-// 		// Malemems[rand.Intn(len(Malemems))]
-// 		rand.Seed(time.Now().UnixNano())
-// 		rand.Shuffle(len(mems), func(i, j int) {
-// 			mems[i], mems[j] = mems[j], mems[i]
-// 		})
-
-// 	}
-// 	FindFemale, err := db.Query("SELECT MemberID,Paired FROM Member WHERE Gender='1' AND Dele='0' ORDER BY MemberID")
-// 	if err != nil {
-// 		panic(err.Error())
-// 	}
-// 	i := 0
-// 	for FindFemale.Next() {
-// 		var MemberID int
-// 		var Pair []uint8
-// 		var PairList []string
-
-// 		err = FindFemale.Scan(&MemberID, &Pair)
-// 		if err != nil {
-// 			panic(err.Error())
-// 		}
-// 		err = json.Unmarshal(Pair, &PairList)
-// 		if err != nil {
-// 			fmt.Println(err)
-// 		}
-// 		mem.Female = MemberID
-// 		mems[i].Female = mem.Female
-// 		mems[i].Pair = PairList
-
-// 		i = i + 1
-// 	}
-// 	fmt.Println("Result", mems)
-// 	// copy(PairingList, mems
-// 	InvalidList := []MemID{}
-// 	ValidList := []MemID{}
-// 	for _, ID := range mems {
-// 		result := PairingCheck(strconv.Itoa(ID.Male), ID.Pair)
-// 		fmt.Println("CheckPair", result)
-// 		item := MemID{Male: ID.Male, Female: ID.Female, Pair: ID.Pair}
-// 		if result == true {
-// 			InvalidList = append(InvalidList, item)
-// 		} else {
-// 			ValidList = append(ValidList, item)
-// 		}
-// 	}
-// 	fmt.Println("InvalidList", InvalidList)
-// 	fmt.Println("ValidList", ValidList)
-// 	InvalidL := []MemID{}
-// 	for _, i := range InvalidList {
-// 		vl := MemID{}
-// 		vl.Male = i.Male
-// 		InvalidL = append(InvalidL, vl)
-// 		// Malemems[rand.Intn(len(Malemems))]
-// 		rand.Seed(time.Now().UnixNano())
-// 		rand.Shuffle(len(InvalidL), func(i, j int) {
-// 			InvalidL[i], InvalidL[j] = InvalidL[j], InvalidL[i]
-// 		})
-// 	}
-// 	var s = 0
-// 	for _, i := range InvalidList {
-// 		InvalidL[s].Female = i.Female
-// 		InvalidL[s].Pair = i.Pair
-// 		s++
-// 	}
-// 	fmt.Println("InvalidL", InvalidL)
-// 	InvalidList = nil
-// 	for _, ID := range InvalidL {
-// 		result := PairingCheck(strconv.Itoa(ID.Male), ID.Pair)
-// 		fmt.Println("CheckPair", result)
-// 		item := MemID{Male: ID.Male, Female: ID.Female, Pair: ID.Pair}
-// 		if result == true {
-// 			InvalidList = append(InvalidList, item)
-// 		} else {
-// 			ValidList = append(ValidList, item)
-// 		}
-// 	}
-// 	fmt.Println("InvalidList", InvalidList)
-// 	for _, ID := range ValidList {
-// 		InsertRecordM, err := db.Prepare("INSERT INTO MatchingRecord (MemberID,MatchedWith,Request,MatchedDate) Values(?,?,0,NOW())")
-// 		InsertRecordF, err := db.Prepare("INSERT INTO MatchingRecord (MemberID,MatchedWith,Request,MatchedDate) Values (?,?,0,NOW())")
-// 		ErrorCheck(err)
-// 		InsertRecordM.Exec(ID.Female, ID.Male)
-// 		InsertRecordF.Exec(ID.Male, ID.Female)
-// 	}
-// 	fmt.Println("ValidList", ValidList)
-// 	//batch update
-// 	defer db.Close()
-
-// 	return
-// }
-
-// //檢查是否已配對過
-// func PairingCheck(a string, list []string) bool {
-// 	for _, b := range list {
-// 		if b == a {
-// 			return true
-// 		}
-// 	}
-// 	return false
-// }
-
 func main() {
 	log.Println("SERVER STARTED ON: HTTP://LOCALHOST:8091")
 	http.HandleFunc("/", Index)
 	http.HandleFunc("/Insert", Insert)
 	http.HandleFunc("/Update", Update)
 	http.HandleFunc("/Show", Show)
-	http.HandleFunc("/New", New)
 	http.HandleFunc("/Edit", Edit)
 	http.HandleFunc("/Delete", Delete)
-	http.HandleFunc("/LoginPage", LoginPage)
 	http.HandleFunc("/GetPost", GetPost)
 	http.HandleFunc("/GetPosts", GetPosts)
 	http.HandleFunc("/CreatePost", CreatePost)
