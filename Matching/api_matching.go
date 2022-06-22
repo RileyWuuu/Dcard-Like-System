@@ -37,6 +37,7 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 		})
 
 	}
+
 	FindFemale, err := db.Query("SELECT MemberID,Paired FROM Member WHERE Gender='1' AND Dele='0' ORDER BY MemberID")
 	if err != nil {
 		panic(err.Error())
@@ -63,6 +64,7 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("Result", mems)
 	// copy(PairingList, mems
+
 	InvalidList := []MemID{}
 	ValidList := []MemID{}
 	for _, ID := range mems {
@@ -88,6 +90,7 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 			InvalidL[i], InvalidL[j] = InvalidL[j], InvalidL[i]
 		})
 	}
+
 	var s = 0
 	for _, i := range InvalidList {
 		InvalidL[s].Female = i.Female
@@ -95,6 +98,7 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 		s++
 	}
 	fmt.Println("InvalidL", InvalidL)
+
 	InvalidList = nil
 	for _, ID := range InvalidL {
 		result := PairingCheck(strconv.Itoa(ID.Male), ID.Pair)
@@ -107,15 +111,18 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	fmt.Println("InvalidList", InvalidList)
+
 	for _, ID := range ValidList {
 		InsertRecordM, err := db.Prepare("INSERT INTO MatchingRecord (MemberID,MatchedWith,Request,MatchedDate) Values(?,?,0,NOW())")
+		ErrorCheck(err)
 		InsertRecordF, err := db.Prepare("INSERT INTO MatchingRecord (MemberID,MatchedWith,Request,MatchedDate) Values (?,?,0,NOW())")
 		ErrorCheck(err)
+
 		InsertRecordM.Exec(ID.Female, ID.Male)
 		InsertRecordF.Exec(ID.Male, ID.Female)
 	}
 	fmt.Println("ValidList", ValidList)
-	//batch update
+
 	return
 }
 
@@ -128,6 +135,7 @@ func PairingCheck(a string, list []string) bool {
 	}
 	return false
 }
+
 func ErrorCheck(err error) {
 	if err != nil {
 		panic(err.Error())
