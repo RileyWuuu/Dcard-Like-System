@@ -12,12 +12,15 @@ import (
 //登入給token
 func login(w http.ResponseWriter, r *http.Request) {
 	db := MysqlConn()
+	defer db.Close()
+
 	creds := &Member{}
 	err := json.NewDecoder(r.Body).Decode(creds)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+
 	Email := creds.Email
 	Password := creds.Password
 
@@ -25,6 +28,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
 	for selDB.Next() {
 		expirationTime := time.Now().Add(5 * time.Minute)
 		// create the jwt claims, including email and expiry time
@@ -52,10 +56,5 @@ func login(w http.ResponseWriter, r *http.Request) {
 		}
 		w.Write(jsonResp)
 		return
-
-		//json.NewEncoder(w).Encode(tkn)
-		// w.Write([]byte(tokenString))
-		// return
 	}
-	defer db.Close()
 }
