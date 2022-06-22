@@ -1,37 +1,17 @@
 package main
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
-	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
 	"time"
-
-	_ "github.com/go-sql-driver/mysql"
 )
 
-type MemID struct {
-	Male   int
-	Female int
-	Pair   []string
-}
-
-func MysqlConn() (db *sql.DB) {
-	dbDriver := "mysql"
-	dbUser := "root"
-	dbPass := "0000"
-	dbName := "testdb"
-	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return db
-}
 func Matching(w http.ResponseWriter, r *http.Request) {
 	db := MysqlConn()
+	defer db.Close()
 
 	var mem = MemID{}
 	var mems = []MemID{}
@@ -57,6 +37,7 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 		})
 
 	}
+
 	FindFemale, err := db.Query("SELECT MemberID,Paired FROM Member WHERE Gender='1' AND Dele='0' ORDER BY MemberID")
 	if err != nil {
 		panic(err.Error())
@@ -83,6 +64,7 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("Result", mems)
 	// copy(PairingList, mems
+
 	InvalidList := []MemID{}
 	ValidList := []MemID{}
 	for _, ID := range mems {
@@ -108,6 +90,7 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 			InvalidL[i], InvalidL[j] = InvalidL[j], InvalidL[i]
 		})
 	}
+
 	var s = 0
 	for _, i := range InvalidList {
 		InvalidL[s].Female = i.Female
@@ -115,6 +98,7 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 		s++
 	}
 	fmt.Println("InvalidL", InvalidL)
+
 	InvalidList = nil
 	for _, ID := range InvalidL {
 		result := PairingCheck(strconv.Itoa(ID.Male), ID.Pair)
@@ -127,16 +111,17 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	fmt.Println("InvalidList", InvalidList)
+
 	for _, ID := range ValidList {
 		InsertRecordM, err := db.Prepare("INSERT INTO MatchingRecord (MemberID,MatchedWith,Request,MatchedDate) Values(?,?,0,NOW())")
+		ErrorCheck(err)
 		InsertRecordF, err := db.Prepare("INSERT INTO MatchingRecord (MemberID,MatchedWith,Request,MatchedDate) Values (?,?,0,NOW())")
 		ErrorCheck(err)
+
 		InsertRecordM.Exec(ID.Female, ID.Male)
 		InsertRecordF.Exec(ID.Male, ID.Female)
 	}
 	fmt.Println("ValidList", ValidList)
-	//batch update
-	defer db.Close()
 
 	return
 }
@@ -150,17 +135,9 @@ func PairingCheck(a string, list []string) bool {
 	}
 	return false
 }
+
 func ErrorCheck(err error) {
 	if err != nil {
 		panic(err.Error())
 	}
-}
-
-func main() {
-	log.Println("SERVER STARTED ON: HTTP://LOCALHOST:8092")
-
-	// http.HandleFunc("/RedisConn", RedisConn)
-	// http.HandleFunc("/SendRequest", SendRequest)
-	http.HandleFunc("/Matching", Matching)
-	http.ListenAndServe(":8092", nil)
 }
