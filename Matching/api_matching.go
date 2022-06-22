@@ -11,6 +11,7 @@ import (
 
 func Matching(w http.ResponseWriter, r *http.Request) {
 	db := MysqlConn()
+	defer db.Close()
 
 	var mem = MemID{}
 	var mems = []MemID{}
@@ -115,8 +116,6 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("ValidList", ValidList)
 	//batch update
-	defer db.Close()
-
 	return
 }
 
