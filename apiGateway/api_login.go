@@ -20,6 +20,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+
 	Email := creds.Email
 	Password := creds.Password
 
@@ -27,6 +28,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
 	for selDB.Next() {
 		expirationTime := time.Now().Add(5 * time.Minute)
 		// create the jwt claims, including email and expiry time
@@ -54,9 +56,5 @@ func login(w http.ResponseWriter, r *http.Request) {
 		}
 		w.Write(jsonResp)
 		return
-
-		//json.NewEncoder(w).Encode(tkn)
-		// w.Write([]byte(tokenString))
-		// return
 	}
 }
