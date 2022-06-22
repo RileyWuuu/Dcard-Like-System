@@ -12,6 +12,8 @@ import (
 //登入給token
 func login(w http.ResponseWriter, r *http.Request) {
 	db := MysqlConn()
+	defer db.Close()
+
 	creds := &Member{}
 	err := json.NewDecoder(r.Body).Decode(creds)
 	if err != nil {
@@ -57,5 +59,4 @@ func login(w http.ResponseWriter, r *http.Request) {
 		// w.Write([]byte(tokenString))
 		// return
 	}
-	defer db.Close()
 }
