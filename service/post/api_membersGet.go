@@ -1,14 +1,14 @@
 package post
 
 import (
+	"dcard/storage/mysql"
 	"encoding/json"
 	"log"
 	"net/http"
 )
 
 func membersGet(w http.ResponseWriter, r *http.Request) {
-	db := mysqlConn()
-	selDB, err := db.Query("SELECT MemberID,MemberName, NickName, NationalID, Region, City, Gender, ContactNumber, UniCode, MajorCode, Email, Password, Dele, DateofBirth, CreateDate FROM Member WHERE Dele='0' ORDER BY MemberID")
+	selDB, err := mysql.GetMySQL().Query("SELECT MemberID,MemberName, NickName, NationalID, Region, City, Gender, ContactNumber, UniCode, MajorCode, Email, Password, Dele, DateofBirth, CreateDate FROM Member WHERE Dele='0' ORDER BY MemberID")
 	if err != nil {
 
 		panic(err.Error())
@@ -42,7 +42,7 @@ func membersGet(w http.ResponseWriter, r *http.Request) {
 		mem.CreateDate = CreateDate
 		res = append(res, mem)
 	}
-	defer db.Close()
+
 	jsonResp, err := json.Marshal(res)
 	if err != nil {
 		log.Fatalf("Error happened in Json marshal. Err: %s", err)

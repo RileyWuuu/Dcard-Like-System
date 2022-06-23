@@ -1,7 +1,8 @@
 package cmd
 
 import (
-	"dcard/post"
+	"dcard/service/post"
+	"dcard/storage/mysql"
 
 	"github.com/spf13/cobra"
 )
@@ -18,6 +19,9 @@ func init() {
 }
 
 func RunPostCmd(cmd *cobra.Command, args []string) error {
+	mysql.Initialize()
+
 	post.EnablePostServer()
+
 	return nil
 }
