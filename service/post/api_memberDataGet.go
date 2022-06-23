@@ -3,13 +3,16 @@ package post
 import (
 	"dcard/storage/mysql"
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
 func edit(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
 	creds := &Member{}
-	err := json.NewDecoder(r.Body).Decode(creds)
+	if err := json.NewDecoder(r.Body).Decode(creds); err != nil {
+		fmt.Println(err)
+	}
 	selDB, err := mysql.GetMySQL().Query("SELECT * FROM Member WHERE MemberID=? LIMIT 1", creds.MemberID)
 	mem := Member{}
 	for selDB.Next() {

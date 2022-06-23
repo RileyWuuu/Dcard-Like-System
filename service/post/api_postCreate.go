@@ -18,7 +18,9 @@ func postCreate(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
 	PostCollection := mongo.GetMongo().Collection("Post")
 	pst := &Post{}
-	err := json.NewDecoder(r.Body).Decode(pst)
+	if err := json.NewDecoder(r.Body).Decode(pst); err != nil {
+		fmt.Println(err)
+	}
 	pst.PostDate = time.Now()
 	pst.Id = ""
 	now := time.Now()
@@ -43,6 +45,9 @@ func postCreate(w http.ResponseWriter, r *http.Request) {
 		"Likes":   strconv.Itoa(pst.Likes),
 	}
 	PJson, err := json.Marshal(post)
+	if err != nil {
+		fmt.Println(err)
+	}
 	postString := PJson
 	fmt.Println("postStringpostString", postString)
 
