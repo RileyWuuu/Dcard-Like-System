@@ -4,9 +4,11 @@ import (
 	"context"
 )
 
-var jwtKey = []byte("Secret")
-
-var ctxb = context.Background()
+var (
+	ctx    = context.TODO()
+	ctxb   = context.Background()
+	jwtKey = []byte("Secret")
+)
 
 func ErrorCheck(err error) {
 	if err != nil {

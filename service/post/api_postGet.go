@@ -1,6 +1,7 @@
 package post
 
 import (
+	"dcard/storage/mongo"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -11,11 +12,10 @@ import (
 )
 
 func postGet(w http.ResponseWriter, r *http.Request) {
-	db := mongoConn()
 	var p Post
 	pst := &Post{}
 	err := json.NewDecoder(r.Body).Decode(pst)
-	PostCollection = db.Collection("Post")
+	PostCollection := mongo.GetMongo().Collection("Post")
 	objectid, err := primitive.ObjectIDFromHex(pst.Id)
 	fmt.Println(pst)
 
