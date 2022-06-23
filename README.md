@@ -22,8 +22,10 @@
 <br>
 ## 1.建立一個Dcard-like System
 * 提供使用者發文，留言的交流平台
+
 <br>
-## 2.Requirements and Goals
+
+## 2. Requirements and Goals
 ### > Functional Requirements
 > * Member (Required)
 > * Posts (Required)
