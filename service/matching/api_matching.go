@@ -1,6 +1,7 @@
 package matching
 
 import (
+	"dcard/storage/mysql"
 	"encoding/json"
 	"fmt"
 	"math/rand"
@@ -10,14 +11,11 @@ import (
 )
 
 func matching(w http.ResponseWriter, r *http.Request) {
-	db := MysqlConn()
-	defer db.Close()
-
 	var mem = MemID{}
 	var mems = []MemID{}
 	// var PairingList = []MemID{}
 	// var pairedList = []MemID{}
-	FindMale, err := db.Query("SELECT MemberID,Paired FROM Member WHERE Gender='0' AND Dele='0' ORDER BY MemberID")
+	FindMale, err := mysql.GetMySQL().Query("SELECT MemberID,Paired FROM Member WHERE Gender='0' AND Dele='0' ORDER BY MemberID")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -38,7 +36,7 @@ func matching(w http.ResponseWriter, r *http.Request) {
 
 	}
 
-	FindFemale, err := db.Query("SELECT MemberID,Paired FROM Member WHERE Gender='1' AND Dele='0' ORDER BY MemberID")
+	FindFemale, err := mysql.GetMySQL().Query("SELECT MemberID,Paired FROM Member WHERE Gender='1' AND Dele='0' ORDER BY MemberID")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -113,9 +111,9 @@ func matching(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("InvalidList", InvalidList)
 
 	for _, ID := range ValidList {
-		InsertRecordM, err := db.Prepare("INSERT INTO MatchingRecord (MemberID,MatchedWith,Request,MatchedDate) Values(?,?,0,NOW())")
+		InsertRecordM, err := mysql.GetMySQL().Prepare("INSERT INTO MatchingRecord (MemberID,MatchedWith,Request,MatchedDate) Values(?,?,0,NOW())")
 		errorCheck(err)
-		InsertRecordF, err := db.Prepare("INSERT INTO MatchingRecord (MemberID,MatchedWith,Request,MatchedDate) Values (?,?,0,NOW())")
+		InsertRecordF, err := mysql.GetMySQL().Prepare("INSERT INTO MatchingRecord (MemberID,MatchedWith,Request,MatchedDate) Values (?,?,0,NOW())")
 		errorCheck(err)
 
 		InsertRecordM.Exec(ID.Female, ID.Male)

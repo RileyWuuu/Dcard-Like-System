@@ -11,6 +11,10 @@ var once sync.Once
 var initialized bool
 
 func GetMySQL() *sql.DB {
+	if !initialized {
+		Initialize()
+	}
+
 	return db
 }
 
@@ -26,5 +30,6 @@ func Initialize() {
 		}
 
 		db = c
+		initialized = true
 	})
 }

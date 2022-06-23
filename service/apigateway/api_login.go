@@ -1,6 +1,7 @@
 package apigateway
 
 import (
+	"dcard/storage/mysql"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -11,9 +12,6 @@ import (
 
 //登入給token
 func login(w http.ResponseWriter, r *http.Request) {
-	db := MysqlConn()
-	defer db.Close()
-
 	creds := &Member{}
 	err := json.NewDecoder(r.Body).Decode(creds)
 	if err != nil {
@@ -24,7 +22,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 	Email := creds.Email
 	Password := creds.Password
 
-	selDB, err := db.Query("SELECT * FROM Member WHERE Email=? AND Password=? AND Dele=? LIMIT 1", Email, Password, "0")
+	selDB, err := mysql.GetMySQL().Query("SELECT * FROM Member WHERE Email=? AND Password=? AND Dele=? LIMIT 1", Email, Password, "0")
 	if err != nil {
 		panic(err.Error())
 	}
