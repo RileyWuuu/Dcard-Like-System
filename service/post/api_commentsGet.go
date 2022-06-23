@@ -15,7 +15,9 @@ func commentsGet(w http.ResponseWriter, r *http.Request) {
 	cmt := &Comment{}
 	var comment Comment
 	var comments []Comment
-	err := json.NewDecoder(r.Body).Decode(cmt)
+	if err := json.NewDecoder(r.Body).Decode(cmt); err != nil {
+		fmt.Println(err)
+	}
 	condition = append(condition, bson.E{Key: "postid", Value: cmt.PostID})
 	fmt.Println(cmt)
 	CommentCollection := mongo.GetMongo().Collection("Comment")
