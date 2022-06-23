@@ -7,14 +7,14 @@
 
 ## 2. Requirements and Goals
 ### > Functional Requirements
-> * Member (Required)
-> * Posts (Required)
->> Post upload
->> Attachment upload (e.g. images, documents)
->> Comment
->> DM (Bonus)
-> * Draw Card (Required)
->> Target must be opposite sex
+> Member (Required)
+> Posts (Required)
+>> * Post upload
+>> * Attachment upload (e.g. images, documents)
+>> * Comment
+>> * DM (Bonus)
+> Draw Card (Required)
+>> * Target must be opposite sex
 ### > Non-Functional Requirements
 > * 
 
@@ -32,19 +32,19 @@
 ### Get single post
     func postGet(postID string)(memberID, title, content string, fileLind []string, likes int, postDate datetime)
 * Post
-> * Function Intro
+> Function Intro
 >> * Post Upload
 >> * Comment
 >> * Like
 
 * Draw Cards
-> * Function Intro
+> Function Intro
 >> * Matching
 >> * Send Request
 >> * Matching Info
 
 * Membership
-> * Function Intro
+> Function Intro
 >> * Login/Logout
 >> * Register
 >> * Info CRUD
