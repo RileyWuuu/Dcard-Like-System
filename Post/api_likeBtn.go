@@ -10,7 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func AddLike(w http.ResponseWriter, r *http.Request) {
+func likeAdded(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
 	db := MongoConn()
 	post := &Post{}

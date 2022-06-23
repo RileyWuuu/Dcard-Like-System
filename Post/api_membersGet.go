@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func Index(w http.ResponseWriter, r *http.Request) {
+func membersGet(w http.ResponseWriter, r *http.Request) {
 	db := MysqlConn()
 	selDB, err := db.Query("SELECT MemberID,MemberName, NickName, NationalID, Region, City, Gender, ContactNumber, UniCode, MajorCode, Email, Password, Dele, DateofBirth, CreateDate FROM Member WHERE Dele='0' ORDER BY MemberID")
 	if err != nil {

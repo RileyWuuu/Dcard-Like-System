@@ -9,9 +9,10 @@ import (
 	"strings"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func GetPosts(w http.ResponseWriter, r *http.Request) {
+func postsGet(w http.ResponseWriter, r *http.Request) {
 	var post PostSummary
 	var posts []PostSummary
 	var posts2 []PostSummary
@@ -42,8 +43,12 @@ func GetPosts(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(i, total)
 		// k := total - i
 		PostCollection = db.Collection("Post")
-		cursor, err := PostCollection.Find(ctx, bson.D{})
-		// cursor := cursor.SetSort(bson.D{{"_id",-1}})
+		findOptions := options.Find()
+		findOptions.SetSort(bson.D{{"postdate", -1}})
+
+		// opts := options.Find().SetSort(bson.D{{"postdate", -1}})
+		cursor, err := PostCollection.Find(ctx, bson.D{}, findOptions)
+		//cursor := cursor.SetSort(bson.D{{"_id",-1}})
 		if err != nil {
 			defer cursor.Close(ctx)
 			fmt.Println("ERROR")
@@ -52,7 +57,6 @@ func GetPosts(w http.ResponseWriter, r *http.Request) {
 		}
 		for cursor.Next(ctx) {
 			err := cursor.Decode(&post)
-			fmt.Println(err)
 			if err != nil {
 				fmt.Println("ERROR")
 				w.WriteHeader(http.StatusBadRequest)
@@ -63,14 +67,15 @@ func GetPosts(w http.ResponseWriter, r *http.Request) {
 				post.Content = string(ContentTune[:50])
 			}
 			posts2 = append(posts2, post)
-			fmt.Println("POST2", post)
 		}
 	}
+	// posts2 = append(posts2[i+1])
 	jsonResp, err := json.Marshal(posts2)
 	if err != nil {
 		log.Fatalf("Error happened in Json marshal. Err: %s", err)
 	}
-	fmt.Println("posts2:", posts2)
+	// difference := total - i
+	// fmt.Println("posts2:", posts3)
 
 	w.Write(jsonResp)
 	return

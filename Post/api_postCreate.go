@@ -11,7 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func CreatePost(w http.ResponseWriter, r *http.Request) {
+func postCreate(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
 	db := MongoConn()
 	client := RedisConn()

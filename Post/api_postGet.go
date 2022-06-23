@@ -10,7 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func GetPost(w http.ResponseWriter, r *http.Request) {
+func postGet(w http.ResponseWriter, r *http.Request) {
 	db := MongoConn()
 	var p Post
 	pst := &Post{}

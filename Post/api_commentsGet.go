@@ -9,7 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func GetComments(w http.ResponseWriter, r *http.Request) {
+func commentsGet(w http.ResponseWriter, r *http.Request) {
 	var condition bson.D
 	db := MongoConn()
 	cmt := &Comment{}

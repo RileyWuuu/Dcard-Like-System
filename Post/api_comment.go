@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func PostComment(w http.ResponseWriter, r *http.Request) {
+func comment(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
 	db := MongoConn()
 	PostCollection = db.Collection("Post")
