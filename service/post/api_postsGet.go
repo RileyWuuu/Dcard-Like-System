@@ -1,6 +1,8 @@
 package post
 
 import (
+	"dcard/storage/mongo"
+	"dcard/storage/redis"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -16,14 +18,13 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 	var post PostSummary
 	var posts []PostSummary
 	var posts2 []PostSummary
-	db := mongoConn()
-	rdb := redisConn()
 	page := &Posts{}
 	err := json.NewDecoder(r.Body).Decode(page)
 	ErrorCheck(err)
 	fmt.Println(page)
 	total := page.Page * page.PerPage
-	result := rdb.ZRevRange("Posts", 0, int64(total))
+	total = total - 1
+	result := redis.GetRedis().ZRevRange("Posts", 0, int64(total))
 	ErrorCheck(err)
 	aaa := result.Val()
 	for _, count := range aaa {
@@ -38,7 +39,7 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 
 	if len(posts) != total {
 		fmt.Println(len(posts), total)
-		PostCollection = db.Collection("Post")
+		PostCollection := mongo.GetMongo().Collection("Post")
 		findOptions := options.Find()
 		findOptions.SetSort(bson.D{{"postdate", -1}})
 
@@ -68,11 +69,10 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 	for _, data := range posts2 {
 		posts = append(posts, data)
 	}
-	jsonResp, err := json.Marshal(posts2)
+	jsonResp, err := json.Marshal(posts)
 	if err != nil {
 		log.Fatalf("Error happened in Json marshal. Err: %s", err)
 	}
-	fmt.Println("posts2:", len(posts))
 
 	w.Write(jsonResp)
 	return

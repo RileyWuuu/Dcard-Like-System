@@ -1,6 +1,7 @@
 package post
 
 import (
+	"dcard/storage/mysql"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -8,12 +9,11 @@ import (
 
 func update(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
-	db := mysqlConn()
 	creds := &Member{}
 	err := json.NewDecoder(r.Body).Decode(creds)
 	ErrorCheck(err)
 	if r.Method == "POST" {
-		insForm, err := db.Prepare("UPDATE Member SET MemberName=?,NickName=?,NationalID=?,Region=?,City=?,Gender=?,ContactNumber=?,UniCode=?,MajorCode=?,Email=?,Password=? WHERE MemberID=?")
+		insForm, err := mysql.GetMySQL().Prepare("UPDATE Member SET MemberName=?,NickName=?,NationalID=?,Region=?,City=?,Gender=?,ContactNumber=?,UniCode=?,MajorCode=?,Email=?,Password=? WHERE MemberID=?")
 		if err != nil {
 			panic(err.Error())
 		}
@@ -23,6 +23,6 @@ func update(w http.ResponseWriter, r *http.Request) {
 		ErrorCheck(err)
 		log.Println("Member info update succeed, ID:", id)
 	}
-	defer db.Close()
+
 	http.Redirect(w, r, "/", 301)
 }

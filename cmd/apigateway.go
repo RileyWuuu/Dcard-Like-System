@@ -1,7 +1,10 @@
 package cmd
 
 import (
-	"dcard/apigateway"
+	"dcard/service/apigateway"
+	"dcard/storage/mongo"
+	"dcard/storage/mysql"
+	"dcard/storage/redis"
 
 	"github.com/spf13/cobra"
 )
@@ -18,6 +21,11 @@ func init() {
 }
 
 func RunApiGatewayCmd(cmd *cobra.Command, args []string) error {
+	mysql.Initialize()
+	redis.Initialize()
+	mongo.Initialize()
+
 	apigateway.EnableApiGateway()
+
 	return nil
 }

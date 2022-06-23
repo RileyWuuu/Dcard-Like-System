@@ -1,6 +1,7 @@
 package post
 
 import (
+	"dcard/storage/mongo"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -12,9 +13,8 @@ import (
 
 func likeAdded(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
-	db := mongoConn()
 	post := &Post{}
-	PostCollection = db.Collection("Post")
+	PostCollection := mongo.GetMongo().Collection("Post")
 	err := json.NewDecoder(r.Body).Decode(post)
 	objectid, err := primitive.ObjectIDFromHex(post.Id)
 	err = PostCollection.FindOne(ctx, bson.D{{"_id", objectid}}).Decode(&post)

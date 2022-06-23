@@ -1,6 +1,7 @@
 package post
 
 import (
+	"dcard/storage/mongo"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -11,14 +12,13 @@ import (
 
 func commentsGet(w http.ResponseWriter, r *http.Request) {
 	var condition bson.D
-	db := mongoConn()
 	cmt := &Comment{}
 	var comment Comment
 	var comments []Comment
 	err := json.NewDecoder(r.Body).Decode(cmt)
 	condition = append(condition, bson.E{Key: "postid", Value: cmt.PostID})
 	fmt.Println(cmt)
-	CommentCollection = db.Collection("Comment")
+	CommentCollection := mongo.GetMongo().Collection("Comment")
 	cursor, err := CommentCollection.Find(ctx, condition)
 	if err != nil {
 		defer cursor.Close(ctx)

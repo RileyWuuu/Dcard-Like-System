@@ -1,6 +1,7 @@
 package post
 
 import (
+	"dcard/storage/mongo"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -9,9 +10,7 @@ import (
 
 func comment(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
-	db := mongoConn()
-	PostCollection = db.Collection("Post")
-	CommentCollection = db.Collection("Comment")
+	CommentCollection := mongo.GetMongo().Collection("Comment")
 	cmt := &Comment{}
 	err := json.NewDecoder(r.Body).Decode(cmt)
 	cmt.CommentDate = time.Now()
