@@ -17,8 +17,5 @@ func EnablePostServer() {
 	http.HandleFunc("/PostComment", comment)
 	http.HandleFunc("/GetComments", commentsGet)
 	http.HandleFunc("/AddLike", likeAdded)
-	// http.HandleFunc("/RedisConn", RedisConn)
-	// http.HandleFunc("/SendRequest", SendRequest)
-	// http.HandleFunc("/Matching", Matching)
 	http.ListenAndServe(":8091", nil)
 }

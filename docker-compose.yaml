@@ -15,20 +15,20 @@ services:
     entrypoint: go run test.go
     restart: always
   mysql:
-      image: riley
+      image: mysql
       environment:
           SA_PASSWORD: '0000' 
           ACCEPT_EULA: Y
       ports:
           - '3306:3306'
   mongo:
-      image: test-mongo
+      image: mongo
       environment:
           ACCEPT_EULA: Y
       ports:
           - '27017:27017'
   redis:
-      image: redisdb
+      image: redis
       environment:
           ACCEPT_EULA: Y
       ports:

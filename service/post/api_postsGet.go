@@ -69,13 +69,13 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 			posts2 = append(posts2, post)
 		}
 	}
-	// posts2 = append(posts2[i+1])
+	posts2 = append(posts2[i+1])
 	jsonResp, err := json.Marshal(posts2)
 	if err != nil {
 		log.Fatalf("Error happened in Json marshal. Err: %s", err)
 	}
 	// difference := total - i
-	// fmt.Println("posts2:", posts3)
+	fmt.Println("posts2:", posts2)
 
 	w.Write(jsonResp)
 	return
