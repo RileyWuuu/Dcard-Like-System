@@ -8,6 +8,7 @@
 ## 2. Requirements and Goals
 ### Functional Requirements
 > Member (Required)
+
 > Posts (Required)
 >> * Post upload
 >> * Attachment upload (e.g. images, documents)
