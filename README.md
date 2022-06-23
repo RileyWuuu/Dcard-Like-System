@@ -47,7 +47,7 @@
 >> Register
 >> Info CRUD
   
-
+  
 
 ![1](https://user-images.githubusercontent.com/71340325/174738452-cc0a5f58-f65d-4f6e-9938-f07e0988e938.jpg)
 ![2](https://user-images.githubusercontent.com/71340325/174738529-0fc1498e-5c83-40dc-af65-210898618c53.jpg)
