@@ -1,6 +1,7 @@
 package post
 
 import (
+	"dcard/storage/mongo"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -16,7 +17,6 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 	var post PostSummary
 	var posts []PostSummary
 	var posts2 []PostSummary
-	db := mongoConn()
 	rdb := redisConn()
 	page := &Posts{}
 	err := json.NewDecoder(r.Body).Decode(page)
@@ -42,7 +42,7 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 	if i != total {
 		fmt.Println(i, total)
 		// k := total - i
-		PostCollection = db.Collection("Post")
+		PostCollection := mongo.GetMongo().Collection("Post")
 		findOptions := options.Find()
 		findOptions.SetSort(bson.D{{"postdate", -1}})
 

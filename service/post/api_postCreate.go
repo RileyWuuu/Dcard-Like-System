@@ -1,6 +1,7 @@
 package post
 
 import (
+	"dcard/storage/mongo"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -13,9 +14,8 @@ import (
 
 func postCreate(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
-	db := mongoConn()
 	client := redisConn()
-	PostCollection = db.Collection("Post")
+	PostCollection := mongo.GetMongo().Collection("Post")
 	pst := &Post{}
 	err := json.NewDecoder(r.Body).Decode(pst)
 	pst.PostDate = time.Now()
