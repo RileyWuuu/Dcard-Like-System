@@ -1,4 +1,4 @@
-package main
+package post
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func MysqlConn() (db *sql.DB) {
+func mysqlConn() (db *sql.DB) {
 	dbDriver := "mysql"
 	dbUser := "root"
 	dbPass := "0000"

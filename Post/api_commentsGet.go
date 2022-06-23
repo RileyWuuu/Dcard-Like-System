@@ -1,4 +1,4 @@
-package main
+package post
 
 import (
 	"encoding/json"
@@ -11,7 +11,7 @@ import (
 
 func commentsGet(w http.ResponseWriter, r *http.Request) {
 	var condition bson.D
-	db := MongoConn()
+	db := mongoConn()
 	cmt := &Comment{}
 	var comment Comment
 	var comments []Comment

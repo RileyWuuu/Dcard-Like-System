@@ -1,4 +1,4 @@
-package main
+package matching
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func Matching(w http.ResponseWriter, r *http.Request) {
+func matching(w http.ResponseWriter, r *http.Request) {
 	db := MysqlConn()
 	defer db.Close()
 
@@ -68,7 +68,7 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 	InvalidList := []MemID{}
 	ValidList := []MemID{}
 	for _, ID := range mems {
-		result := PairingCheck(strconv.Itoa(ID.Male), ID.Pair)
+		result := pairingCheck(strconv.Itoa(ID.Male), ID.Pair)
 		fmt.Println("CheckPair", result)
 		item := MemID{Male: ID.Male, Female: ID.Female, Pair: ID.Pair}
 		if result == true {
@@ -101,7 +101,7 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 
 	InvalidList = nil
 	for _, ID := range InvalidL {
-		result := PairingCheck(strconv.Itoa(ID.Male), ID.Pair)
+		result := pairingCheck(strconv.Itoa(ID.Male), ID.Pair)
 		fmt.Println("CheckPair", result)
 		item := MemID{Male: ID.Male, Female: ID.Female, Pair: ID.Pair}
 		if result == true {
@@ -114,9 +114,9 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 
 	for _, ID := range ValidList {
 		InsertRecordM, err := db.Prepare("INSERT INTO MatchingRecord (MemberID,MatchedWith,Request,MatchedDate) Values(?,?,0,NOW())")
-		ErrorCheck(err)
+		errorCheck(err)
 		InsertRecordF, err := db.Prepare("INSERT INTO MatchingRecord (MemberID,MatchedWith,Request,MatchedDate) Values (?,?,0,NOW())")
-		ErrorCheck(err)
+		errorCheck(err)
 
 		InsertRecordM.Exec(ID.Female, ID.Male)
 		InsertRecordF.Exec(ID.Male, ID.Female)
@@ -127,7 +127,7 @@ func Matching(w http.ResponseWriter, r *http.Request) {
 }
 
 //檢查是否已配對過
-func PairingCheck(a string, list []string) bool {
+func pairingCheck(a string, list []string) bool {
 	for _, b := range list {
 		if b == a {
 			return true
@@ -136,7 +136,7 @@ func PairingCheck(a string, list []string) bool {
 	return false
 }
 
-func ErrorCheck(err error) {
+func errorCheck(err error) {
 	if err != nil {
 		panic(err.Error())
 	}

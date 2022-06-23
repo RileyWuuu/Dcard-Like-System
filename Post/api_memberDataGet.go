@@ -1,6 +1,13 @@
-func Edit(w http.ResponseWriter, r *http.Request) {
+package post
+
+import (
+	"encoding/json"
+	"net/http"
+)
+
+func edit(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
-	db := MysqlConn()
+	db := mysqlConn()
 	creds := &Member{}
 	err := json.NewDecoder(r.Body).Decode(creds)
 	selDB, err := db.Query("SELECT * FROM Member WHERE MemberID=? LIMIT 1", creds.MemberID)

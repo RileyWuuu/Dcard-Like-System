@@ -1,4 +1,4 @@
-package main
+package post
 
 import (
 	"encoding/json"
@@ -12,7 +12,7 @@ import (
 
 func likeAdded(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
-	db := MongoConn()
+	db := mongoConn()
 	post := &Post{}
 	PostCollection = db.Collection("Post")
 	err := json.NewDecoder(r.Body).Decode(post)

@@ -1,4 +1,4 @@
-package main
+package post
 
 import (
 	"context"
@@ -14,7 +14,7 @@ var (
 	ctx               = context.TODO()
 )
 
-func MongoConn() (db *mongo.Database) {
+func mongoConn() (db *mongo.Database) {
 	host := "127.0.0.1"
 	port := "27017"
 	connectionURI := "mongodb://" + host + ":" + port + "/"

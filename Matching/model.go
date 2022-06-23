@@ -1,4 +1,4 @@
-package main
+package matching
 
 type MemID struct {
 	Male   int

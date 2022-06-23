@@ -1,4 +1,4 @@
-package main
+package matching
 
 import (
 	"log"
@@ -7,10 +7,10 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func main() {
+func EnableMatchingServer() {
 	log.Println("SERVER STARTED ON: HTTP://LOCALHOST:8092")
 	// http.HandleFunc("/RedisConn", RedisConn)
 	// http.HandleFunc("/SendRequest", SendRequest)
-	http.HandleFunc("/Matching", Matching)
+	http.HandleFunc("/Matching", matching)
 	http.ListenAndServe(":8092", nil)
 }

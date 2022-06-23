@@ -1,4 +1,4 @@
-package main
+package post
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 )
 
 func membersGet(w http.ResponseWriter, r *http.Request) {
-	db := MysqlConn()
+	db := mysqlConn()
 	selDB, err := db.Query("SELECT MemberID,MemberName, NickName, NationalID, Region, City, Gender, ContactNumber, UniCode, MajorCode, Email, Password, Dele, DateofBirth, CreateDate FROM Member WHERE Dele='0' ORDER BY MemberID")
 	if err != nil {
 

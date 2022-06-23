@@ -1,4 +1,4 @@
-package main
+package post
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"github.com/go-redis/redis"
 )
 
-func RedisConn() *redis.Client {
+func redisConn() *redis.Client {
 	client := redis.NewClient(&redis.Options{
 		Addr:     "127.0.0.1:6379",
 		Password: "",

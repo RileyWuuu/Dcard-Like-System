@@ -1,4 +1,4 @@
-package main
+package post
 
 import (
 	"encoding/json"
@@ -11,7 +11,7 @@ import (
 )
 
 func postGet(w http.ResponseWriter, r *http.Request) {
-	db := MongoConn()
+	db := mongoConn()
 	var p Post
 	pst := &Post{}
 	err := json.NewDecoder(r.Body).Decode(pst)

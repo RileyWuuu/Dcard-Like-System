@@ -1,4 +1,4 @@
-package main
+package post
 
 import (
 	"encoding/json"
@@ -7,8 +7,8 @@ import (
 	"net/http"
 )
 
-func CheckUsrEmail(Email string) bool {
-	db := MysqlConn()
+func checkUsrEmail(Email string) bool {
+	db := mysqlConn()
 	var isAuthenticated bool
 	err := db.QueryRow("SELECT IF(COUNT(*),'true','false') FROM Member WHERE Email = ?", Email).Scan(&isAuthenticated)
 	if err != nil {
@@ -16,12 +16,12 @@ func CheckUsrEmail(Email string) bool {
 	}
 	return isAuthenticated
 }
-func Insert(w http.ResponseWriter, r *http.Request) {
-	db := MysqlConn()
+func insert(w http.ResponseWriter, r *http.Request) {
+	db := mysqlConn()
 	creds := &Member{}
 	err := json.NewDecoder(r.Body).Decode(creds)
 	ErrorCheck(err)
-	CheckUsrEmail(creds.Email)
+	checkUsrEmail(creds.Email)
 	if r.Method == "POST" {
 		insForm, err := db.Prepare("INSERT INTO Member (MemberName,NickName,NationalID,DateofBirth,Region,City,Gender,ContactNumber,UniCode,MajorCode,Email,Password,CreateDate,Dele) VALUES(?,?,?,str_to_date(?,'%Y-%m-%d') ,?,?,?,?,?,?,?,?,NOW(),'0')")
 		ErrorCheck(err)

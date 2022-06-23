@@ -1,11 +1,11 @@
-package main
+package apigateway
 
 import (
 	"log"
 	"net/http"
 )
 
-func main() {
+func EnableApiGateway() {
 	log.Println("SERVER STARTED ON: HTTP://LOCALHOST:8090")
 	http.HandleFunc("/Login", login)
 	http.HandleFunc("/Refresh", refresh)

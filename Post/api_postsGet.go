@@ -1,4 +1,4 @@
-package main
+package post
 
 import (
 	"encoding/json"
@@ -16,8 +16,8 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 	var post PostSummary
 	var posts []PostSummary
 	var posts2 []PostSummary
-	db := MongoConn()
-	rdb := RedisConn()
+	db := mongoConn()
+	rdb := redisConn()
 	page := &Posts{}
 	err := json.NewDecoder(r.Body).Decode(page)
 	ErrorCheck(err)

@@ -1,4 +1,4 @@
-package main
+package apigateway
 
 import (
 	"encoding/json"

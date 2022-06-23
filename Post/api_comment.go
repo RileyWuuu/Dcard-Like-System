@@ -1,4 +1,4 @@
-package main
+package post
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 
 func comment(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
-	db := MongoConn()
+	db := mongoConn()
 	PostCollection = db.Collection("Post")
 	CommentCollection = db.Collection("Comment")
 	cmt := &Comment{}

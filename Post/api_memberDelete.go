@@ -1,4 +1,4 @@
-package main
+package post
 
 import (
 	"encoding/json"
@@ -6,9 +6,9 @@ import (
 	"net/http"
 )
 
-func Delete(w http.ResponseWriter, r *http.Request) {
+func delete(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
-	db := MysqlConn()
+	db := mysqlConn()
 	creds := &Member{}
 	err := json.NewDecoder(r.Body).Decode(creds)
 	ErrorCheck(err)

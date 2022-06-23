@@ -1,4 +1,4 @@
-package main
+package post
 
 import (
 	"encoding/json"
@@ -6,9 +6,9 @@ import (
 	"net/http"
 )
 
-func Update(w http.ResponseWriter, r *http.Request) {
+func update(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
-	db := MysqlConn()
+	db := mysqlConn()
 	creds := &Member{}
 	err := json.NewDecoder(r.Body).Decode(creds)
 	ErrorCheck(err)
@@ -26,4 +26,3 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	http.Redirect(w, r, "/", 301)
 }
-

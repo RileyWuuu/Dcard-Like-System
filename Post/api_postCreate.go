@@ -1,4 +1,4 @@
-package main
+package post
 
 import (
 	"encoding/json"
@@ -13,8 +13,8 @@ import (
 
 func postCreate(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
-	db := MongoConn()
-	client := RedisConn()
+	db := mongoConn()
+	client := redisConn()
 	PostCollection = db.Collection("Post")
 	pst := &Post{}
 	err := json.NewDecoder(r.Body).Decode(pst)
