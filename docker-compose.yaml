@@ -24,14 +24,12 @@ services:
   mongo:
       image: test-mongo
       environment:
-          # SA_PASSWORD: $$3cureP@ssw0rd
           ACCEPT_EULA: Y
       ports:
           - '27017:27017'
   redis:
       image: redisdb
       environment:
-          # SA_PASSWORD: $$3cureP@ssw0rd
           ACCEPT_EULA: Y
       ports:
           - '6379:6379'
