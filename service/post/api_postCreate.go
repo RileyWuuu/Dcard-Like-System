@@ -8,13 +8,14 @@ import (
 	"strconv"
 	"time"
 
+	redisClient "dcard/storage/redis"
+
 	"github.com/go-redis/redis"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func postCreate(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
-	client := redisConn()
 	PostCollection := mongo.GetMongo().Collection("Post")
 	pst := &Post{}
 	err := json.NewDecoder(r.Body).Decode(pst)
@@ -45,7 +46,7 @@ func postCreate(w http.ResponseWriter, r *http.Request) {
 	postString := PJson
 	fmt.Println("postStringpostString", postString)
 
-	_, errr := client.ZAdd("Posts", redis.Z{timestamp, PJson}).Result()
+	_, errr := redisClient.GetRedis().ZAdd("Posts", redis.Z{timestamp, PJson}).Result()
 	ErrorCheck(errr)
 
 	w.Write([]byte(fmt.Sprintf("%v", result.InsertedID)))
