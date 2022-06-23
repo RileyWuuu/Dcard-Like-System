@@ -33,21 +33,21 @@
     func postGet(postID string)(memberID, title, content string, fileLind []string, likes int, postDate datetime)
 * Post
 > * Function Intro
->> Post Upload
->> Comment
->> Like
+>> * Post Upload
+>> * Comment
+>> * Like
 
 * Draw Cards
 > * Function Intro
->> Matching
->> Send Request
->> Matching Info
+>> * Matching
+>> * Send Request
+>> * Matching Info
 
 * Membership
 > * Function Intro
->> Login/Logout
->> Register
->> Info CRUD
+>> * Login/Logout
+>> * Register
+>> * Info CRUD
   
   
 
