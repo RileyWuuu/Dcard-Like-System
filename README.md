@@ -19,3 +19,47 @@
 ![19](https://user-images.githubusercontent.com/71340325/174739325-afe9a152-5156-4097-9be8-5a332980070b.jpg)
 ![20](https://user-images.githubusercontent.com/71340325/174739338-fe1cf083-a75b-4938-a0b9-75caf6ba6f62.jpg)
 ![21](https://user-images.githubusercontent.com/71340325/174739351-f2bd24f8-38dd-4310-9295-aee2ab8a7b8a.jpg)
+<br>
+## 1.建立一個Dcard-like System
+* 提供使用者發文，留言的交流平台
+<br>
+## 2.Requirements and Goals
+### > Functional Requirements
+> * Member (Required)
+> * Posts (Required)
+>> Post upload
+>> Attachment upload (e.g. images, documents)
+>> Comment
+>> DM (Bonus)
+> * Draw Card (Required)
+>> Target must be opposite sex
+### > Non-Functional Requirements
+> * 
+<br>
+## 3. Capacity Estimation and Consstraints
+<br>
+## 4. System APIs
+### Upload post
+    func postCreate(memberID, title, content string, fileLink []string, likes int, postDate datetime)(statusCode int)
+### Get all posts
+    func postsGet(page, perPage int)(postID, title, content string, likes int)
+### Get single post
+    func postGet(postID string)(memberID, title, content string, fileLind []string, likes int, postDate datetime)
+* Post
+> * Function Intro
+>> Post Upload
+>> Comment
+>> Like
+* Draw Cards
+> * Function Intro
+>> Matching
+>> Send Request
+>> Matching Info
+* Membership
+> * Function Intro
+>> Login/Logout
+>> Register
+>> Info CRUD
+  
+
+
