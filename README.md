@@ -20,8 +20,8 @@
 ![20](https://user-images.githubusercontent.com/71340325/174739338-fe1cf083-a75b-4938-a0b9-75caf6ba6f62.jpg)
 ![21](https://user-images.githubusercontent.com/71340325/174739351-f2bd24f8-38dd-4310-9295-aee2ab8a7b8a.jpg)
 <br>
-## 1.建立一個Dcard-like System
-* 提供使用者發文，留言的交流平台
+## 1.Create a Dcard-like System
+* Providing users a platform to communicate.
 
 <br>
 
