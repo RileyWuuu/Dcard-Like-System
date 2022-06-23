@@ -36,11 +36,13 @@
 >> Post Upload
 >> Comment
 >> Like
+
 * Draw Cards
 > * Function Intro
 >> Matching
 >> Send Request
 >> Matching Info
+
 * Membership
 > * Function Intro
 >> Login/Logout
