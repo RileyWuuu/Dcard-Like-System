@@ -27,9 +27,7 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 	result := redis.GetRedis().ZRevRange("Posts", 0, int64(total))
 	ErrorCheck(err)
 	aaa := result.Val()
-	i := 0
 	for _, count := range aaa {
-		i = i + 1
 		arr := strings.Split(count, ",")
 
 		post.Content = arr[0]
@@ -39,16 +37,13 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 		posts = append(posts, post)
 	}
 
-	if i != total {
-		fmt.Println(i, total)
-		// k := total - i
+	if len(posts) != total {
+		fmt.Println(len(posts), total)
 		PostCollection := mongo.GetMongo().Collection("Post")
 		findOptions := options.Find()
 		findOptions.SetSort(bson.D{{"postdate", -1}})
 
-		// opts := options.Find().SetSort(bson.D{{"postdate", -1}})
 		cursor, err := PostCollection.Find(ctx, bson.D{}, findOptions)
-		//cursor := cursor.SetSort(bson.D{{"_id",-1}})
 		if err != nil {
 			defer cursor.Close(ctx)
 			fmt.Println("ERROR")
@@ -69,13 +64,15 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 			posts2 = append(posts2, post)
 		}
 	}
-	posts2 = append(posts2, posts2[i+1])
-	jsonResp, err := json.Marshal(posts2)
+	posts2 = posts2[len(posts)-1:]
+	posts2 = posts2[:total-len(posts)]
+	for _, data := range posts2 {
+		posts = append(posts, data)
+	}
+	jsonResp, err := json.Marshal(posts)
 	if err != nil {
 		log.Fatalf("Error happened in Json marshal. Err: %s", err)
 	}
-	// difference := total - i
-	fmt.Println("posts2:", posts2, i)
 
 	w.Write(jsonResp)
 	return
