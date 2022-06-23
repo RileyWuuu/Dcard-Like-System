@@ -74,3 +74,13 @@
 <br>
 
 
+## Commands
+
+Enable API Gateway
+> go run main.go apigateway
+
+Enable Post Server
+> go run main.go post
+
+Enable Matching Server
+> go run main.go matching
