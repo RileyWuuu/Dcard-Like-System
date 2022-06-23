@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"dcard/matching"
+	"dcard/service/matching"
 
 	"github.com/spf13/cobra"
 )

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"dcard/post"
+	"dcard/service/post"
 
 	"github.com/spf13/cobra"
 )

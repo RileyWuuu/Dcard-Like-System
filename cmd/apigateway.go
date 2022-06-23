@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"dcard/apigateway"
+	"dcard/service/apigateway"
 
 	"github.com/spf13/cobra"
 )
