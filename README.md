@@ -14,6 +14,7 @@
 >> * Attachment upload (e.g. images, documents)
 >> * Comment
 >> * DM (Bonus)
+
 > Draw Card (Required)
 >> * Target must be opposite sex
 ### Non-Functional Requirements
