@@ -6,7 +6,7 @@
 <br>
 
 ## 2. Requirements and Goals
-### > Functional Requirements
+### Functional Requirements
 > Member (Required)
 > Posts (Required)
 >> * Post upload
@@ -15,7 +15,7 @@
 >> * DM (Bonus)
 > Draw Card (Required)
 >> * Target must be opposite sex
-### > Non-Functional Requirements
+### Non-Functional Requirements
 > * 
 
 <br>
