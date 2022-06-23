@@ -2,6 +2,7 @@ package post
 
 import (
 	"dcard/storage/mongo"
+	"dcard/storage/redis"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -17,14 +18,13 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 	var post PostSummary
 	var posts []PostSummary
 	var posts2 []PostSummary
-	rdb := redisConn()
 	page := &Posts{}
 	err := json.NewDecoder(r.Body).Decode(page)
 	ErrorCheck(err)
 	fmt.Println(page)
 	total := page.Page * page.PerPage
 	total = total - 1
-	result := rdb.ZRevRange("Posts", 0, int64(total))
+	result := redis.GetRedis().ZRevRange("Posts", 0, int64(total))
 	ErrorCheck(err)
 	aaa := result.Val()
 	i := 0
