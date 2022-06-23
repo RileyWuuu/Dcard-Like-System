@@ -1,25 +1,5 @@
 # Dcard-Like-System
-![1](https://user-images.githubusercontent.com/71340325/174738452-cc0a5f58-f65d-4f6e-9938-f07e0988e938.jpg)
-![2](https://user-images.githubusercontent.com/71340325/174738529-0fc1498e-5c83-40dc-af65-210898618c53.jpg)
-![3](https://user-images.githubusercontent.com/71340325/174738539-35ebfc7f-51ce-4f54-afe0-74c97e44ef9f.jpg)
-![4](https://user-images.githubusercontent.com/71340325/174738558-b8e2132a-0ef8-4b00-9fc4-b8c1aebafc55.jpg)
-![5](https://user-images.githubusercontent.com/71340325/174738571-3f23bc12-baee-4da5-8f80-97546ce45c4b.jpg)
-![6](https://user-images.githubusercontent.com/71340325/174738578-95d0a678-064e-4cf4-9179-85bae4241a01.jpg)
-![7](https://user-images.githubusercontent.com/71340325/174738699-2236cff5-e302-4b41-8b7b-34853d628422.jpg)
-![8](https://user-images.githubusercontent.com/71340325/174738716-80b8fb1c-d53f-4be4-b2ec-af5589d7974c.jpg)
-![9](https://user-images.githubusercontent.com/71340325/174738730-7e788e47-519b-4613-8480-e2698836bb1e.jpg)
-![10](https://user-images.githubusercontent.com/71340325/174738736-c1eb82ef-ea1f-44c2-a3ff-f45603533a8d.jpg)
-![11](https://user-images.githubusercontent.com/71340325/174738753-d8a7dfab-456b-4c7f-8634-51dfb866a6b2.jpg)
-![12](https://user-images.githubusercontent.com/71340325/174738759-19fecd4e-8025-4b38-b27e-5887d370bb72.jpg)
-![13](https://user-images.githubusercontent.com/71340325/174738775-8627678e-33e1-487e-b03b-411a5f62edb5.jpg)
-![14](https://user-images.githubusercontent.com/71340325/174739242-610bc1b5-0b92-449b-931a-8562d70abfc0.jpg)
-![15](https://user-images.githubusercontent.com/71340325/174739253-57db34f0-7e0d-4b5d-ac97-4d49d7d4da01.jpg)
-![17](https://user-images.githubusercontent.com/71340325/174739283-f623734b-033c-49ec-8074-eea22a3d3182.jpg)
-![18](https://user-images.githubusercontent.com/71340325/174739296-e53a9a59-ff94-410e-94f0-a36580a64b19.jpg)
-![19](https://user-images.githubusercontent.com/71340325/174739325-afe9a152-5156-4097-9be8-5a332980070b.jpg)
-![20](https://user-images.githubusercontent.com/71340325/174739338-fe1cf083-a75b-4938-a0b9-75caf6ba6f62.jpg)
-![21](https://user-images.githubusercontent.com/71340325/174739351-f2bd24f8-38dd-4310-9295-aee2ab8a7b8a.jpg)
-<br>
+
 ## 1.Create a Dcard-like System
 * Providing users a platform to communicate.
 
@@ -67,5 +47,28 @@
 >> Register
 >> Info CRUD
   
+
+
+![1](https://user-images.githubusercontent.com/71340325/174738452-cc0a5f58-f65d-4f6e-9938-f07e0988e938.jpg)
+![2](https://user-images.githubusercontent.com/71340325/174738529-0fc1498e-5c83-40dc-af65-210898618c53.jpg)
+![3](https://user-images.githubusercontent.com/71340325/174738539-35ebfc7f-51ce-4f54-afe0-74c97e44ef9f.jpg)
+![4](https://user-images.githubusercontent.com/71340325/174738558-b8e2132a-0ef8-4b00-9fc4-b8c1aebafc55.jpg)
+![5](https://user-images.githubusercontent.com/71340325/174738571-3f23bc12-baee-4da5-8f80-97546ce45c4b.jpg)
+![6](https://user-images.githubusercontent.com/71340325/174738578-95d0a678-064e-4cf4-9179-85bae4241a01.jpg)
+![7](https://user-images.githubusercontent.com/71340325/174738699-2236cff5-e302-4b41-8b7b-34853d628422.jpg)
+![8](https://user-images.githubusercontent.com/71340325/174738716-80b8fb1c-d53f-4be4-b2ec-af5589d7974c.jpg)
+![9](https://user-images.githubusercontent.com/71340325/174738730-7e788e47-519b-4613-8480-e2698836bb1e.jpg)
+![10](https://user-images.githubusercontent.com/71340325/174738736-c1eb82ef-ea1f-44c2-a3ff-f45603533a8d.jpg)
+![11](https://user-images.githubusercontent.com/71340325/174738753-d8a7dfab-456b-4c7f-8634-51dfb866a6b2.jpg)
+![12](https://user-images.githubusercontent.com/71340325/174738759-19fecd4e-8025-4b38-b27e-5887d370bb72.jpg)
+![13](https://user-images.githubusercontent.com/71340325/174738775-8627678e-33e1-487e-b03b-411a5f62edb5.jpg)
+![14](https://user-images.githubusercontent.com/71340325/174739242-610bc1b5-0b92-449b-931a-8562d70abfc0.jpg)
+![15](https://user-images.githubusercontent.com/71340325/174739253-57db34f0-7e0d-4b5d-ac97-4d49d7d4da01.jpg)
+![17](https://user-images.githubusercontent.com/71340325/174739283-f623734b-033c-49ec-8074-eea22a3d3182.jpg)
+![18](https://user-images.githubusercontent.com/71340325/174739296-e53a9a59-ff94-410e-94f0-a36580a64b19.jpg)
+![19](https://user-images.githubusercontent.com/71340325/174739325-afe9a152-5156-4097-9be8-5a332980070b.jpg)
+![20](https://user-images.githubusercontent.com/71340325/174739338-fe1cf083-a75b-4938-a0b9-75caf6ba6f62.jpg)
+![21](https://user-images.githubusercontent.com/71340325/174739351-f2bd24f8-38dd-4310-9295-aee2ab8a7b8a.jpg)
+<br>
 
 
