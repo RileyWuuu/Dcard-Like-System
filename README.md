@@ -37,9 +37,13 @@
 >> Target must be opposite sex
 ### > Non-Functional Requirements
 > * 
+
 <br>
+
 ## 3. Capacity Estimation and Consstraints
+
 <br>
+
 ## 4. System APIs
 ### Upload post
     func postCreate(memberID, title, content string, fileLink []string, likes int, postDate datetime)(statusCode int)
