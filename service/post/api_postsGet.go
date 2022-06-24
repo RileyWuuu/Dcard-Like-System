@@ -64,7 +64,6 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 			posts2 = append(posts2, post)
 		}
 	}
-	posts2 = posts2[len(posts)-1:]
 	posts2 = posts2[:total-len(posts)]
 	for _, data := range posts2 {
 		posts = append(posts, data)
@@ -73,7 +72,7 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Error happened in Json marshal. Err: %s", err)
 	}
-
+	fmt.Println(posts)
 	w.Write(jsonResp)
 	return
 }
