@@ -15,8 +15,13 @@ func likeAdded(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
 	post := &Post{}
 	PostCollection := mongo.GetMongo().Collection("Post")
-	err := json.NewDecoder(r.Body).Decode(post)
+	if err := json.NewDecoder(r.Body).Decode(post); err != nil {
+		fmt.Println(err)
+	}
 	objectid, err := primitive.ObjectIDFromHex(post.Id)
+	if err != nil {
+		fmt.Println(err)
+	}
 	err = PostCollection.FindOne(ctx, bson.D{{"_id", objectid}}).Decode(&post)
 	result, err := PostCollection.UpdateOne(
 		ctx,

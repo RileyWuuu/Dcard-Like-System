@@ -14,7 +14,9 @@ import (
 func postGet(w http.ResponseWriter, r *http.Request) {
 	var p Post
 	pst := &Post{}
-	err := json.NewDecoder(r.Body).Decode(pst)
+	if err := json.NewDecoder(r.Body).Decode(pst); err != nil {
+		fmt.Println(err)
+	}
 	PostCollection := mongo.GetMongo().Collection("Post")
 	objectid, err := primitive.ObjectIDFromHex(pst.Id)
 	fmt.Println(pst)
