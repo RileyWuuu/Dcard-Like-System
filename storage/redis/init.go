@@ -1,6 +1,7 @@
 package redis
 
 import (
+	"dcard/config"
 	"fmt"
 	"sync"
 
@@ -22,8 +23,8 @@ func GetRedis() *redis.Client {
 func Initialize() {
 	once.Do(func() {
 		db = redis.NewClient(&redis.Options{
-			Addr:     "127.0.0.1:6379",
-			Password: "",
+			Addr:     config.Conf.Redis.Addr,
+			Password: config.Conf.Redis.Password,
 			DB:       0,
 		})
 		pong, err := db.Ping().Result()
