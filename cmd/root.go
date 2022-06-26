@@ -1,11 +1,14 @@
 package cmd
 
 import (
+	"dcard/config"
 	"fmt"
 	"runtime"
+	"strings"
 	"time"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var cfgFile string
@@ -19,7 +22,27 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
+	cobra.OnInitialize(initConfig)
+
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "f", "./conf.d/env.yaml", "config file")
 	rootCmd.PersistentFlags().StringVarP(&buildTime, "buildTime", "b", time.Now().String(), "binary build time")
+}
+
+func initConfig() {
+	viper.SetConfigType("yaml")
+	viper.AutomaticEnv()
+	viper.SetEnvPrefix("Dcard")
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+
+	if cfgFile != "" {
+		viper.SetConfigFile(cfgFile)
+	}
+
+	if err := viper.ReadInConfig(); err != nil {
+		fmt.Printf("ReadInConfig file failed: %v\n", err)
+	} else {
+		fmt.Printf("Used config file: %v\n", viper.ConfigFileUsed())
+	}
 }
 
 func Execute() {
@@ -36,6 +59,13 @@ func PersistentPreRunBeforeCommandStartUp(cmd *cobra.Command, args []string) err
 	fmt.Printf("OS: %s\n", osName)
 	fmt.Printf("Architecture: %s\n", architecture)
 	fmt.Println("======")
+
+	c, err := config.NewFromViper()
+	if err != nil {
+		fmt.Printf("Initialize config failed: %v\n", err)
+	} else {
+		config.SetConfig(c)
+	}
 
 	return nil
 }
