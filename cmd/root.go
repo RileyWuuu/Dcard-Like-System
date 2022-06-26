@@ -25,7 +25,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "f", "./conf.d/env.yaml", "config file")
-	rootCmd.PersistentFlags().StringVarP(&buildTime, "buildTime", "b", time.Now().String(), "binary build time")
+	rootCmd.PersistentFlags().StringVarP(&buildTime, "buildTime", "b", time.Now().Format("2006-01-02 15:04:05"), "binary build time")
 }
 
 func initConfig() {
@@ -53,12 +53,12 @@ func PersistentPreRunBeforeCommandStartUp(cmd *cobra.Command, args []string) err
 	goVersion := runtime.Version()
 	osName := runtime.GOOS
 	architecture := runtime.GOARCH
-	fmt.Println("======")
-	fmt.Printf("Build on %s\n", buildTime)
-	fmt.Printf("GoVersion: %s\n", goVersion)
-	fmt.Printf("OS: %s\n", osName)
+	fmt.Println("==============================")
 	fmt.Printf("Architecture: %s\n", architecture)
-	fmt.Println("======")
+	fmt.Printf("OS: %s\n", osName)
+	fmt.Printf("GoVersion: %s\n", goVersion)
+	fmt.Printf("Build on %s\n", buildTime)
+	fmt.Println("==============================")
 
 	c, err := config.NewFromViper()
 	if err != nil {
