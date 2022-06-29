@@ -1,23 +1,23 @@
-package post
+package member
 
 import (
 	"dcard/storage/mysql"
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 )
 
-func edit(w http.ResponseWriter, r *http.Request) {
-	// Authentication(w, r)
-	creds := &Member{}
-	if err := json.NewDecoder(r.Body).Decode(creds); err != nil {
-		fmt.Println(err)
+func membersGet(w http.ResponseWriter, r *http.Request) {
+	selDB, err := mysql.GetMySQL().Query("SELECT MemberID,MemberName, NickName, NationalID, Region, City, Gender, ContactNumber, UniCode, MajorCode, Email, Password, Dele, DateofBirth, CreateDate FROM Member WHERE Dele='0' ORDER BY MemberID")
+	if err != nil {
+
+		panic(err.Error())
 	}
-	selDB, err := mysql.GetMySQL().Query("SELECT * FROM Member WHERE MemberID=? LIMIT 1", creds.MemberID)
 	mem := Member{}
+	res := []Member{}
 	for selDB.Next() {
 		var MemberID int
-		var MemberName, NickName, NationalID, DateofBirth, Region, City, Gender, ContactNumber, UniCode, MajorCode, Email, Password, CreateDate, Dele string
+		var MemberName, NickName, NationalID, Region, City, Gender, ContactNumber, UniCode, MajorCode, Email, Password, Dele, DateofBirth, CreateDate string
 		err = selDB.Scan(&MemberID, &MemberName, &NickName, &NationalID, &DateofBirth, &Region, &City, &Gender, &ContactNumber, &UniCode, &MajorCode, &Email, &Password, &CreateDate, &Dele)
 		if err != nil {
 			panic(err.Error())
@@ -25,13 +25,10 @@ func edit(w http.ResponseWriter, r *http.Request) {
 		mem.MemberID = MemberID
 		mem.MemberName = MemberName
 		if Gender == "0" {
-			mem.Male = "Checked"
-			mem.Female = ""
+			mem.Gender = "男"
 		} else {
-			mem.Male = ""
-			mem.Female = "Checked"
+			mem.Gender = "女"
 		}
-		mem.Gender = Gender
 		mem.NickName = NickName
 		mem.NationalID = NationalID
 		mem.DateofBirth = DateofBirth
@@ -43,9 +40,13 @@ func edit(w http.ResponseWriter, r *http.Request) {
 		mem.Email = Email
 		mem.Password = Password
 		mem.CreateDate = CreateDate
+		res = append(res, mem)
 	}
-	// tmpl.ExecuteTemplate(w, "Edit", mem)
-	a, err := json.Marshal(mem)
-	w.Write(a)
+
+	jsonResp, err := json.Marshal(res)
+	if err != nil {
+		log.Fatalf("Error happened in Json marshal. Err: %s", err)
+	}
+	w.Write(jsonResp)
 	return
 }

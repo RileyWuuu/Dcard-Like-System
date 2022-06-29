@@ -1,4 +1,4 @@
-package post
+package member
 
 import (
 	"dcard/storage/mysql"
