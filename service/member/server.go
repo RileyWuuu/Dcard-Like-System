@@ -5,9 +5,8 @@ import (
 	"net/http"
 )
 
-func EnablePostServer() {
+func EnableMemberServer() {
 	log.Println("SERVER STARTED ON: HTTP://LOCALHOST:8093")
-	// http.HandleFunc("/", index)
 	http.HandleFunc("/member_insert", insert)
 	http.HandleFunc("/Update", update)
 	http.HandleFunc("/member_delete", delete)
