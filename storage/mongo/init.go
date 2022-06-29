@@ -2,6 +2,8 @@ package mongo
 
 import (
 	"context"
+	"dcard/config"
+	"fmt"
 	"log"
 	"sync"
 
@@ -31,9 +33,7 @@ func GetCollection(colName string) *mongo.Collection {
 
 func Initialize() {
 	once.Do(func() {
-		host := "127.0.0.1"
-		port := "27017"
-		connectionURI := "mongodb://" + host + ":" + port + "/"
+		connectionURI := fmt.Sprintf("mongodb://%s/", config.Conf.Mongo.Addr)
 		clientOptions := options.Client().ApplyURI(connectionURI)
 		client, err := mongo.Connect(context.TODO(), clientOptions)
 		if err != nil {

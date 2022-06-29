@@ -2,6 +2,8 @@ package mysql
 
 import (
 	"database/sql"
+	"dcard/config"
+	"fmt"
 	"log"
 	"sync"
 )
@@ -20,11 +22,8 @@ func GetMySQL() *sql.DB {
 
 func Initialize() {
 	once.Do(func() {
-		dbDriver := "mysql"
-		dbUser := "root"
-		dbPass := "0000"
-		dbName := "testdb"
-		c, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
+		addr := fmt.Sprintf("%s:%s@/%s", config.Conf.MySql.UserName, config.Conf.MySql.Password, config.Conf.MySql.DbName)
+		c, err := sql.Open(config.Conf.MySql.DriverName, addr)
 		if err != nil {
 			log.Fatal(err)
 		}
