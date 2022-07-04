@@ -16,6 +16,7 @@ type config struct {
 }
 
 type mysql struct {
+	Addr       string `yaml:"Addr"`
 	DriverName string `yaml:"DriverName"`
 	UserName   string `yaml:"UserName"`
 	Password   string `yaml:"Password"`

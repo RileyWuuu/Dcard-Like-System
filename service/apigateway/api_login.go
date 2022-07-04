@@ -3,6 +3,7 @@ package apigateway
 import (
 	"dcard/storage/mysql"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -24,6 +25,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 	selDB, err := mysql.GetMySQL().Query("SELECT * FROM Member WHERE Email=? AND Password=? AND Dele=? LIMIT 1", Email, Password, "0")
 	if err != nil {
+		fmt.Println(selDB)
 		panic(err.Error())
 	}
 
