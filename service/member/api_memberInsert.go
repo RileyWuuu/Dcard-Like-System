@@ -31,6 +31,7 @@ func insert(w http.ResponseWriter, r *http.Request) {
 		ErrorCheck(err)
 		fmt.Println("Inserted New Member ID:", id)
 	}
+	w.WriteHeader(http.StatusOK)
 
 	// http.Redirect(w, r, "/", 301)
 }

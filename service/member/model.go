@@ -20,8 +20,6 @@ type Member struct {
 	Password      string `json:"password"`
 	CreateDate    string `json:"createdate"`
 	Dele          string `json:"dele"`
-	Male          string `json:"male"`
-	Female        string `json:"female"`
 	Paired        string `json:"paired"`
 }
 

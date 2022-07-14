@@ -9,11 +9,12 @@ import (
 
 func singleMemberGet(w http.ResponseWriter, r *http.Request) {
 	// Authentication(w, r)
+	var status int
 	creds := &Member{}
 	if err := json.NewDecoder(r.Body).Decode(creds); err != nil {
 		fmt.Println(err)
 	}
-	selDB, err := mysql.GetMySQL().Query("SELECT * FROM Member WHERE MemberID=? LIMIT 1", creds.MemberID)
+	selDB, err := mysql.GetMySQL().Query("SELECT MemberID,MemberName, NickName, NationalID, DateofBirth, Region, City, Gender, ContactNumber, UniCode, MajorCode, Email, Password, CreateDate, Dele FROM Member WHERE MemberID=? LIMIT 1", creds.MemberID)
 	mem := Member{}
 	for selDB.Next() {
 		var MemberID int
@@ -24,13 +25,6 @@ func singleMemberGet(w http.ResponseWriter, r *http.Request) {
 		}
 		mem.MemberID = MemberID
 		mem.MemberName = MemberName
-		if Gender == "0" {
-			mem.Male = "Checked"
-			mem.Female = ""
-		} else {
-			mem.Male = ""
-			mem.Female = "Checked"
-		}
 		mem.Gender = Gender
 		mem.NickName = NickName
 		mem.NationalID = NationalID
@@ -46,6 +40,12 @@ func singleMemberGet(w http.ResponseWriter, r *http.Request) {
 	}
 	// tmpl.ExecuteTemplate(w, "Edit", mem)
 	a, err := json.Marshal(mem)
+	if err != nil {
+		status = http.StatusBadRequest
+	} else {
+		status = http.StatusOK
+	}
+	w.WriteHeader(status)
 	w.Write(a)
 	return
 }

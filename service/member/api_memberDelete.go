@@ -19,5 +19,6 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	id, err := res.RowsAffected()
 	ErrorCheck(err)
 	fmt.Println("Successfully deleted Member,ID:", id)
-	http.Redirect(w, r, "/", 301)
+	w.WriteHeader(http.StatusOK)
+
 }

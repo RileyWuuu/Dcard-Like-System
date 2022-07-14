@@ -23,6 +23,6 @@ func update(w http.ResponseWriter, r *http.Request) {
 		ErrorCheck(err)
 		log.Println("Member info update succeed, ID:", id)
 	}
+	w.WriteHeader(http.StatusOK)
 
-	http.Redirect(w, r, "/", 301)
 }

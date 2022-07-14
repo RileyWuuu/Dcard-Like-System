@@ -47,6 +47,8 @@ func membersGet(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Error happened in Json marshal. Err: %s", err)
 	}
+	w.WriteHeader(http.StatusOK)
 	w.Write(jsonResp)
+
 	return
 }
