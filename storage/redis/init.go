@@ -27,12 +27,10 @@ func Initialize() {
 			Password: config.Conf.Redis.Password,
 			DB:       0,
 		})
-		pong, err := db.Ping().Result()
+		_, err := db.Ping().Result()
 		if err != nil {
 			fmt.Println(err)
 		}
-
-		fmt.Println(pong)
 		initialized = true
 	})
 }

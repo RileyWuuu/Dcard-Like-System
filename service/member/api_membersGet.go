@@ -18,7 +18,7 @@ func membersGet(w http.ResponseWriter, r *http.Request) {
 	for selDB.Next() {
 		var MemberID int
 		var MemberName, NickName, NationalID, Region, City, Gender, ContactNumber, UniCode, MajorCode, Email, Password, Dele, DateofBirth, CreateDate string
-		err = selDB.Scan(&MemberID, &MemberName, &NickName, &NationalID, &DateofBirth, &Region, &City, &Gender, &ContactNumber, &UniCode, &MajorCode, &Email, &Password, &CreateDate, &Dele)
+		err = selDB.Scan(&MemberID, &MemberName, &NickName, &NationalID, &Region, &City, &Gender, &ContactNumber, &UniCode, &MajorCode, &Email, &Password, &DateofBirth, &CreateDate, &Dele)
 		if err != nil {
 			panic(err.Error())
 		}

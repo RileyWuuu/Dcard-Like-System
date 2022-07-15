@@ -19,9 +19,8 @@ func update(w http.ResponseWriter, r *http.Request) {
 		}
 		res, err := insForm.Exec(creds.MemberName, creds.NickName, creds.NationalID, creds.Region, creds.City, creds.Gender, creds.ContactNumber, creds.UniCode, creds.MajorCode, creds.Email, creds.Password, creds.MemberID)
 		ErrorCheck(err)
-		id, err := res.RowsAffected()
-		ErrorCheck(err)
-		log.Println("Member info update succeed, ID:", id)
+		res.RowsAffected()
+		log.Println("Member info update succeed")
 	}
 	w.WriteHeader(http.StatusOK)
 
