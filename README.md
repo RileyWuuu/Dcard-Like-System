@@ -86,3 +86,6 @@ Enable Post Server
 
 Enable Matching Server
 > go run main.go matching
+
+Enable Member Server
+> go run main.go member
