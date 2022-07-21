@@ -22,25 +22,24 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(page)
 	ErrorCheck(err)
 	total := page.Page * page.PerPage
-	total = total - 1
+
 	result := redis.GetRedis().ZRevRange("Posts", 0, int64(total))
 	ErrorCheck(err)
 	aaa := result.Val()
 	PostCollection := mongo.GetMongo().Collection("Post")
 	findOptions := options.Find()
 	findOptions.SetSort(bson.D{{"postdate", -1}})
+	//If redis has no data, get all from mongo
 	if len(aaa) == 0 {
 		cursor, err := PostCollection.Find(ctx, bson.D{}, findOptions)
 		if err != nil {
 			defer cursor.Close(ctx)
-			fmt.Println("ERROR")
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 		for cursor.Next(ctx) {
 			err := cursor.Decode(&post)
 			if err != nil {
-				fmt.Println("ERROR")
 				w.WriteHeader(http.StatusBadRequest)
 				return
 			}
@@ -61,33 +60,28 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 		}
 		w.Write(jsonResp)
 
-	} else {
+	} else { //
 		fmt.Println(len(aaa))
 		for _, count := range aaa {
 			arr := strings.Split(count, ",")
-			fmt.Println("ARRARRARRARR", arr)
 			post.Content = arr[0]
 			post.Id = arr[1]
 			post.Likes, _ = strconv.Atoi(arr[2])
 			post.Title = arr[3]
 			posts = append(posts, post)
 		}
-		if len(posts) != total {
-			fmt.Println(len(posts), total)
-
+		fmt.Println("len", len(posts), "total:", total)
+		if len(posts) < total {
 			cursor, err := PostCollection.Find(ctx, bson.D{}, findOptions)
 			if err != nil {
 				defer cursor.Close(ctx)
-				fmt.Println("ERROR")
 				w.WriteHeader(http.StatusBadRequest)
 				return
 			}
 			for cursor.Next(ctx) {
-				fmt.Println("ABCDEFG")
 
 				err := cursor.Decode(&post)
 				if err != nil {
-					fmt.Println("ERROR")
 					w.WriteHeader(http.StatusBadRequest)
 					return
 				}

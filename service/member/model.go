@@ -21,6 +21,7 @@ type Member struct {
 	CreateDate    string `json:"createdate"`
 	Dele          string `json:"dele"`
 	Paired        string `json:"paired"`
+	Liked         string `json:"liked"`
 }
 
 type Claims struct {

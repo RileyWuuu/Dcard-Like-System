@@ -48,8 +48,6 @@ func postCreate(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	postString := PJson
-	fmt.Println("postStringpostString", postString)
 
 	_, errr := redisClient.GetRedis().ZAdd("Posts", redis.Z{timestamp, PJson}).Result()
 	ErrorCheck(errr)

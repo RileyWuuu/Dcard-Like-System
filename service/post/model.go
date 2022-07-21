@@ -31,7 +31,6 @@ type Claims struct {
 	Email string `json:"email"`
 	jwt.StandardClaims
 }
-
 type Post struct {
 	Id       string    `json:"_id" bson:"_id,omitempty"`
 	MemberID int       `json:"memberid"`
@@ -40,12 +39,13 @@ type Post struct {
 	FileLink string    `json:"filelink"`
 	Likes    int       `json:"likes"`
 	PostDate time.Time `json:"postdate"`
+	Liked    []int     `json:"liked"`
 }
 type PostSummary struct {
-	Content string `json:"content"`
 	Id      string `json:"_id" bson:"_id,omitempty"`
-	Likes   int    `json:"likes"`
 	Title   string `json:"title"`
+	Content string `json:"content"`
+	Likes   int    `json:"likes"`
 }
 
 type Comment struct {

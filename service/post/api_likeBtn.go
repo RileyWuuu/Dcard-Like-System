@@ -12,26 +12,56 @@ import (
 )
 
 func likeAdded(w http.ResponseWriter, r *http.Request) {
-	// Authentication(w, r)
 	post := &Post{}
 	PostCollection := mongo.GetMongo().Collection("Post")
 	if err := json.NewDecoder(r.Body).Decode(post); err != nil {
 		fmt.Println(err)
 	}
+	memID := post.MemberID
 	objectid, err := primitive.ObjectIDFromHex(post.Id)
 	if err != nil {
 		fmt.Println(err)
 	}
 	err = PostCollection.FindOne(ctx, bson.D{{"_id", objectid}}).Decode(&post)
-	result, err := PostCollection.UpdateOne(
-		ctx,
-		bson.M{"_id": objectid},
-		bson.D{
-			{"$set", bson.D{{"likes", (post.Likes + 1)}}},
-		},
-	)
-	if err != nil {
-		log.Fatal(err)
+	checkIfLiked := false
+	for _, x := range post.Liked {
+		if x == memID {
+			checkIfLiked = true
+		}
 	}
-	fmt.Printf("Added like : %v \n", result.ModifiedCount)
+	if checkIfLiked == true {
+		result, err := PostCollection.UpdateOne(
+			ctx,
+			bson.M{"_id": objectid},
+			bson.D{
+				{"$set", bson.D{{"likes", (post.Likes - 1)}}},
+				{"$pull", bson.D{{"liked", memID}}},
+			},
+		)
+		if err != nil {
+			log.Fatal(err)
+		}
+		w.WriteHeader(http.StatusOK)
+		fmt.Printf("Added like : %v \n", result.ModifiedCount)
+		return
+	} else {
+		result, err := PostCollection.UpdateOne(
+			ctx,
+			bson.M{"_id": objectid},
+			bson.D{
+				{"$set", bson.D{{"likes", (post.Likes + 1)}}},
+				{"$push", bson.D{{"liked", memID}}},
+			},
+		)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		w.WriteHeader(http.StatusOK)
+		fmt.Printf("Added like : %v \n", result.ModifiedCount)
+		return
+	}
+	w.WriteHeader(http.StatusBadRequest)
+	return
+
 }
