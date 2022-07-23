@@ -46,6 +46,10 @@ func singleMemberGet(w http.ResponseWriter, r *http.Request) {
 	} else {
 		status = http.StatusOK
 	}
+	if mem.MemberID == 0 {
+		a, err = json.Marshal("查無資料")
+		status = http.StatusBadRequest
+	}
 	w.WriteHeader(status)
 	w.Write(a)
 	return
