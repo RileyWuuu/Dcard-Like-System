@@ -8,12 +8,16 @@
 ## 2. Requirements and Goals
 ### Functional Requirements
 > Member (Required)
+>> * Member create
+>> * Member update
+>> * Member delete
+>> * Member data get (single or all)
 
 > Posts (Required)
 >> * Post upload
 >> * Attachment upload (e.g. images, documents)
 >> * Comment
->> * DM (Bonus)
+>> * Like post
 
 > Draw Card (Required)
 >> * Target must be opposite sex
@@ -28,16 +32,24 @@
 
 ## 4. System APIs
 ### Upload post
-    func postCreate(memberID, title, content string, fileLink []string, likes int, postDate datetime)(statusCode int)
+```
+func postCreate(memberID, title, content string, fileLink []string, likes int, postDate datetime)(statusCode int)
+```
 ### Get all posts
-    func postsGet(page, perPage int)(postID, title, content string, likes int)
+```
+func postsGet(page, perPage int)(postID, title, content string, likes int)
+```
 ### Get single post
-    func postGet(postID string)(memberID, title, content string, fileLind []string, likes int, postDate datetime)
+```
+func postGet(postID string)(memberID, title, content string, fileLind []string, likes int, postDate datetime)
+```
+
+
 * Post
 > Function Intro
 >> * Post Upload
 >> * Comment
->> * Like
+>> * Like/Unlike
 
 * Draw Cards
 > Function Intro
@@ -47,9 +59,8 @@
 
 * Membership
 > Function Intro
->> * Login/Logout
->> * Register
->> * Info CRUD
+>> * Login
+>> * Member CRUD
   
   
 
