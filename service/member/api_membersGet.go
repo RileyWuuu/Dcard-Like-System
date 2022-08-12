@@ -5,9 +5,11 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func membersGet(w http.ResponseWriter, r *http.Request) {
+func membersGet(c *gin.Context) {
 	selDB, err := mysql.GetMySQL().Query("SELECT MemberID,MemberName, NickName, NationalID, Region, City, Gender, ContactNumber, UniCode, MajorCode, Email, Password, Dele, DateofBirth, CreateDate FROM Member WHERE Dele='0' ORDER BY MemberID")
 	if err != nil {
 
@@ -47,8 +49,8 @@ func membersGet(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Error happened in Json marshal. Err: %s", err)
 	}
-	w.WriteHeader(http.StatusOK)
-	w.Write(jsonResp)
+	c.Writer.WriteHeader(http.StatusOK)
+	c.Writer.Write(jsonResp)
 
 	return
 }

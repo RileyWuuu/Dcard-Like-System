@@ -7,14 +7,15 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func likeAdded(w http.ResponseWriter, r *http.Request) {
+func likeAdded(c *gin.Context) {
 	post := &Post{}
 	PostCollection := mongo.GetMongo().Collection("Post")
-	if err := json.NewDecoder(r.Body).Decode(post); err != nil {
+	if err := json.NewDecoder(c.Request.Body).Decode(post); err != nil {
 		fmt.Println(err)
 	}
 	memID := post.MemberID
@@ -41,7 +42,7 @@ func likeAdded(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		w.WriteHeader(http.StatusOK)
+		c.Writer.WriteHeader(http.StatusOK)
 		fmt.Printf("Added like : %v \n", result.ModifiedCount)
 		return
 	} else {
@@ -57,11 +58,11 @@ func likeAdded(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 		}
 
-		w.WriteHeader(http.StatusOK)
+		c.Writer.WriteHeader(http.StatusOK)
 		fmt.Printf("Added like : %v \n", result.ModifiedCount)
 		return
 	}
-	w.WriteHeader(http.StatusBadRequest)
+	c.Writer.WriteHeader(http.StatusBadRequest)
 	return
 
 }

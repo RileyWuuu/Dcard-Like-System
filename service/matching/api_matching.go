@@ -5,12 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"math/rand"
-	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
-func matching(w http.ResponseWriter, r *http.Request) {
+func matching(c *gin.Context) {
 	var mem = MemID{}
 	var mems = []MemID{}
 	// var PairingList = []MemID{}

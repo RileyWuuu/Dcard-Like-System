@@ -10,15 +10,16 @@ import (
 
 	redisClient "dcard/storage/redis"
 
+	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func postCreate(w http.ResponseWriter, r *http.Request) {
+func postCreate(c *gin.Context) {
 	// Authentication(w, r)
 	PostCollection := mongo.GetMongo().Collection("Post")
 	pst := &Post{}
-	if err := json.NewDecoder(r.Body).Decode(pst); err != nil {
+	if err := json.NewDecoder(c.Request.Body).Decode(pst); err != nil {
 		fmt.Println(err)
 	}
 	pst.PostDate = time.Now()
@@ -28,7 +29,7 @@ func postCreate(w http.ResponseWriter, r *http.Request) {
 	result, err := PostCollection.InsertOne(ctx, pst)
 
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		c.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	ContentTune := []rune(pst.Content)
@@ -52,6 +53,6 @@ func postCreate(w http.ResponseWriter, r *http.Request) {
 	_, errr := redisClient.GetRedis().ZAdd("Posts", redis.Z{timestamp, PJson}).Result()
 	ErrorCheck(errr)
 
-	w.Write([]byte(fmt.Sprintf("%v", result.InsertedID)))
+	c.Writer.Write([]byte(fmt.Sprintf("%v", result.InsertedID)))
 	return
 }

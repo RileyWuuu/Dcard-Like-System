@@ -7,14 +7,15 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func postGet(w http.ResponseWriter, r *http.Request) {
+func postGet(c *gin.Context) {
 	var p Post
 	pst := &Post{}
-	if err := json.NewDecoder(r.Body).Decode(pst); err != nil {
+	if err := json.NewDecoder(c.Request.Body).Decode(pst); err != nil {
 		fmt.Println(err)
 	}
 	PostCollection := mongo.GetMongo().Collection("Post")
@@ -22,18 +23,18 @@ func postGet(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(pst)
 
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		c.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	err = PostCollection.FindOne(ctx, bson.D{{"_id", objectid}}).Decode(&p)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		c.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	jsonResp, err := json.Marshal(p)
 	if err != nil {
 		log.Fatalf("Error happened in Json marshal. Err: %s", err)
 	}
-	w.Write(jsonResp)
+	c.Writer.Write(jsonResp)
 	return
 }

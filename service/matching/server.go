@@ -1,16 +1,12 @@
 package matching
 
 import (
-	"log"
-	"net/http"
-
+	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func EnableMatchingServer() {
-	log.Println("SERVER STARTED ON: HTTP://LOCALHOST:8092")
-	// http.HandleFunc("/RedisConn", RedisConn)
-	// http.HandleFunc("/SendRequest", SendRequest)
-	http.HandleFunc("/Matching", matching)
-	http.ListenAndServe(":8092", nil)
+	server := gin.Default()
+	server.GET("/Matching", matching)
+	server.Run("localhost:8092")
 }

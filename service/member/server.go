@@ -1,16 +1,15 @@
 package member
 
 import (
-	"log"
-	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
 func EnableMemberServer() {
-	log.Println("SERVER STARTED ON: HTTP://LOCALHOST:8093")
-	http.HandleFunc("/member_insert", insert)
-	http.HandleFunc("/member_update", update)
-	http.HandleFunc("/member_delete", delete)
-	http.HandleFunc("/members_get", membersGet)
-	http.HandleFunc("/member_get", singleMemberGet)
-	http.ListenAndServe(":8093", nil)
+	server := gin.Default()
+	server.GET("/member_get", singleMemberGet)
+	server.POST("/member_delete", delete)
+	server.POST("/member_insert", insert)
+	server.POST("/member_update", update)
+	server.GET("/get", membersGet)
+	server.Run("localhost:8093")
 }

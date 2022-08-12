@@ -10,16 +10,17 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func postsGet(w http.ResponseWriter, r *http.Request) {
+func postsGet(c *gin.Context) {
 	var post PostSummary
 	var posts []PostSummary
 	var posts2 []PostSummary
 	page := &Posts{}
-	err := json.NewDecoder(r.Body).Decode(page)
+	err := json.NewDecoder(c.Request.Body).Decode(page)
 	ErrorCheck(err)
 	total := page.Page * page.PerPage
 
@@ -34,13 +35,13 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 		cursor, err := PostCollection.Find(ctx, bson.D{}, findOptions)
 		if err != nil {
 			defer cursor.Close(ctx)
-			w.WriteHeader(http.StatusBadRequest)
+			c.Writer.WriteHeader(http.StatusBadRequest)
 			return
 		}
 		for cursor.Next(ctx) {
 			err := cursor.Decode(&post)
 			if err != nil {
-				w.WriteHeader(http.StatusBadRequest)
+				c.Writer.WriteHeader(http.StatusBadRequest)
 				return
 			}
 			ContentTune := []rune(post.Content)
@@ -58,7 +59,7 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatalf("Error happened in Json marshal. Err: %s", err)
 		}
-		w.Write(jsonResp)
+		c.Writer.Write(jsonResp)
 
 	} else { //
 		fmt.Println(len(aaa))
@@ -75,14 +76,14 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 			cursor, err := PostCollection.Find(ctx, bson.D{}, findOptions)
 			if err != nil {
 				defer cursor.Close(ctx)
-				w.WriteHeader(http.StatusBadRequest)
+				c.Writer.WriteHeader(http.StatusBadRequest)
 				return
 			}
 			for cursor.Next(ctx) {
 
 				err := cursor.Decode(&post)
 				if err != nil {
-					w.WriteHeader(http.StatusBadRequest)
+					c.Writer.WriteHeader(http.StatusBadRequest)
 					return
 				}
 				ContentTune := []rune(post.Content)
@@ -100,7 +101,7 @@ func postsGet(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatalf("Error happened in Json marshal. Err: %s", err)
 		}
-		w.Write(jsonResp)
+		c.Writer.Write(jsonResp)
 	}
 	fmt.Println(posts)
 

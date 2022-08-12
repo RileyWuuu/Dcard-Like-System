@@ -1,18 +1,16 @@
 package post
 
 import (
-	"log"
-	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
 func EnablePostServer() {
-	log.Println("SERVER STARTED ON: HTTP://LOCALHOST:8091")
-	// http.HandleFunc("/", index)
-	http.HandleFunc("/GetPost", postGet)
-	http.HandleFunc("/GetPosts", postsGet)
-	http.HandleFunc("/CreatePost", postCreate)
-	http.HandleFunc("/PostComment", comment)
-	http.HandleFunc("/GetComments", commentsGet)
-	http.HandleFunc("/AddLike", likeAdded)
-	http.ListenAndServe(":8091", nil)
+	server := gin.Default()
+	server.GET("/GetPost", postGet)
+	server.GET("/GetPosts", postsGet)
+	server.GET("/GetComments", commentsGet)
+	server.POST("/AddLike", likeAdded)
+	server.POST("/CreatePost", postCreate)
+	server.POST("/PostComment", comment)
+	server.Run("localhost:8093")
 }

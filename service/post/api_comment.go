@@ -6,22 +6,24 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
-func comment(w http.ResponseWriter, r *http.Request) {
+func comment(c *gin.Context) {
 	// Authentication(w, r)
 	CommentCollection := mongo.GetMongo().Collection("Comment")
 	cmt := &Comment{}
-	if err := json.NewDecoder(r.Body).Decode(cmt); err != nil {
+	if err := json.NewDecoder(c.Request.Body).Decode(cmt); err != nil {
 		fmt.Println(err)
 	}
 
 	cmt.CommentDate = time.Now()
 	result, err := CommentCollection.InsertOne(ctx, cmt)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		c.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	w.Write([]byte(fmt.Sprintf("%v", result.InsertedID)))
+	c.Writer.Write([]byte(fmt.Sprintf("%v", result.InsertedID)))
 	return
 }

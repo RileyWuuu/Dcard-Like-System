@@ -5,12 +5,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func delete(w http.ResponseWriter, r *http.Request) {
+func delete(c *gin.Context) {
 	// Authentication(w, r)
 	creds := &Member{}
-	err := json.NewDecoder(r.Body).Decode(creds)
+	err := json.NewDecoder(c.Request.Body).Decode(creds)
 	ErrorCheck(err)
 	delForm, err := mysql.GetMySQL().Prepare("UPDATE Member SET Dele='1' WHERE MemberID=?")
 	ErrorCheck(err)
@@ -19,6 +21,6 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	id, err := res.RowsAffected()
 	ErrorCheck(err)
 	fmt.Println("Successfully deleted Member,ID:", id)
-	w.WriteHeader(http.StatusOK)
+	c.Writer.WriteHeader(http.StatusOK)
 
 }

@@ -5,13 +5,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func singleMemberGet(w http.ResponseWriter, r *http.Request) {
+func singleMemberGet(c *gin.Context) {
 	// Authentication(w, r)
 	var status int
 	creds := &Member{}
-	if err := json.NewDecoder(r.Body).Decode(creds); err != nil {
+	fmt.Println("ERROR")
+	
+	if err := json.NewDecoder(c.Request.Body).Decode(creds); err != nil {
 		fmt.Println(err)
 	}
 	selDB, err := mysql.GetMySQL().Query("SELECT MemberID,MemberName, NickName, NationalID, DateofBirth, Region, City, Gender, ContactNumber, UniCode, MajorCode, Email, Password, CreateDate, Dele FROM Member WHERE MemberID=? AND Dele = '0' LIMIT 1", creds.MemberID)
@@ -50,7 +54,9 @@ func singleMemberGet(w http.ResponseWriter, r *http.Request) {
 		a, err = json.Marshal("查無資料")
 		status = http.StatusBadRequest
 	}
-	w.WriteHeader(status)
-	w.Write(a)
-	return
+	c.Writer.Write(a)
+	c.Writer.WriteHeader(status)
+	// w.WriteHeader(status)
+	// w.Write(a)
+	// return
 }

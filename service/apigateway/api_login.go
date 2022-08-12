@@ -9,14 +9,15 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 )
 
 //登入給token
-func login(w http.ResponseWriter, r *http.Request) {
+func login(c *gin.Context) {
 	creds := &Member{}
-	err := json.NewDecoder(r.Body).Decode(creds)
+	err := json.NewDecoder(c.Request.Body).Decode(creds)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		c.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
@@ -42,11 +43,11 @@ func login(w http.ResponseWriter, r *http.Request) {
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 		tokenString, err := token.SignedString(jwtKey)
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+			c.Writer.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
-		w.Header().Set("Content-Type", "application/json")
+		c.Writer.WriteHeader(http.StatusOK)
+		c.Writer.Header().Set("Content-Type", "application/json")
 		tkn := map[string]string{
 			"token": tokenString,
 		}
@@ -54,7 +55,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatalf("Error happened in Json marshal. Err: %s", err)
 		}
-		w.Write(jsonResp)
+		c.Writer.Write(jsonResp)
 		return
 	}
 }
